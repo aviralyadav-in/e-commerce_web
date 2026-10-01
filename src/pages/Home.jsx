@@ -1,19 +1,23 @@
-import { ArrowRight } from "lucide-react";
 import SEO from "../components/common/SEO.jsx";
-import Button from "../components/ui/Button.jsx";
 import { SectionHeading } from "../components/ui/Bits.jsx";
 import ProductGrid from "../components/product/ProductGrid.jsx";
 import HeroCarousel from "../features/home/HeroCarousel.jsx";
+import HeroOfferVouchers from "../features/home/HeroOfferVouchers.jsx";
+import AnnouncementTicker from "../features/home/AnnouncementTicker.jsx";
 import FeaturedCategories from "../features/home/FeaturedCategories.jsx";
 import CountdownBanner from "../features/home/CountdownBanner.jsx";
+import FeaturedCollaborations from "../features/home/FeaturedCollaborations.jsx";
 import ReelsShowcase from "../features/home/ReelsShowcase.jsx";
 import BudgetTiers from "../features/home/BudgetTiers.jsx";
+import RecentOrderRecommendations from "../features/home/RecentOrderRecommendations.jsx";
+import RecentlyViewedSection from "../features/home/RecentlyViewedSection.jsx";
 import ReviewPills from "../features/home/ReviewPills.jsx";
-import CategoryExplorer from "../features/home/CategoryExplorer.jsx";
-import { WhyCraftiniya } from "../features/home/Highlights.jsx";
+import SocialCommunityBanners from "../features/home/SocialCommunityBanners.jsx";
+
 import { useAsync } from "../hooks/useAsync.js";
 import productService from "../services/productService.js";
 import { BRAND } from "../config/site.js";
+import s from "./Home.module.css";
 
 export default function Home() {
   const {
@@ -30,40 +34,45 @@ export default function Home() {
         description={`${BRAND.name} — handcrafted resin art, soy candles, home decor and thoughtful gifting, made in small batches.`}
       />
 
+      {/* Announcement Ticker — continuous marquee scroll, non-clickable */}
+      <AnnouncementTicker />
+
       <HeroCarousel />
+      <HeroOfferVouchers />
       <FeaturedCategories />
       <CountdownBanner />
+      <FeaturedCollaborations />
 
-      <section style={{ paddingBlock: "var(--section-y)" }}>
+      <section className={s.bestSellersSection}>
         <div className="container">
           <SectionHeading
             eyebrow="Most loved"
-            title="What everyone is buying"
-            subtitle="The pieces that leave the studio fastest."
-            action={
-              <Button to="/shop" variant="ghost" endIcon={<ArrowRight size={16} />}>
-                Shop all
-              </Button>
-            }
-            align="split"
+            title="Our Best Sellers"
           />
 
           <ProductGrid
-            products={bestSellers ?? []}
+            products={(bestSellers ?? []).slice(0, 4)}
             loading={loading}
             error={error}
             onRetry={refetch}
             columns={4}
-            skeletonCount={8}
+            skeletonCount={4}
           />
         </div>
       </section>
 
+      {/* Last Order Spotlight & Matching Recommendations */}
+      <RecentOrderRecommendations />
+
       <ReelsShowcase />
       <BudgetTiers />
-      <CategoryExplorer />
-      <WhyCraftiniya />
+
+      {/* Past Viewed / Recently Explored Items */}
+      <RecentlyViewedSection />
+
       <ReviewPills />
+      {/* Social community section temporarily disabled for later reconsideration */}
+      {/* <SocialCommunityBanners /> */}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Heart, Minus, Plus, RotateCcw, ShieldCheck, ShoppingBag, Truck } from "lucide-react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Check, ChevronDown, Heart, Leaf, Minus, Play, Plus, RotateCcw, ShieldCheck, ShoppingBag, Truck, X } from "lucide-react";
 import SEO from "../components/common/SEO.jsx";
 import PageHeader from "../components/layout/PageHeader.jsx";
 import Button from "../components/ui/Button.jsx";
@@ -30,7 +30,7 @@ const TABS = [
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
-  const { addItem, pending } = useCart();
+  const { addItem, pending, isInCart } = useCart();
   const { isWishlisted, toggle } = useWishlist();
   const { toast } = useUI();
   const navigate = useNavigate();
@@ -39,6 +39,9 @@ export default function ProductDetailPage() {
   const [imageIndex, setImageIndex] = useState(0);
   const [qty, setQty] = useState(1);
   const [tab, setTab] = useState("details");
+  const [justAdded, setJustAdded] = useState(false);
+  const [artisanOpen, setArtisanOpen] = useState(false);
+  const [creatorNoteOpen, setCreatorNoteOpen] = useState(false);
 
   const { data: product, loading, error, refetch } = useAsync(
     (opts) => productService.getProductBySlug(slug, opts),
@@ -108,9 +111,13 @@ export default function ProductDetailPage() {
   const maxQty = Math.max(variant?.stockCount ?? product.stockCount ?? 0, 0);
   const wishlisted = isWishlisted(product.id);
 
+  const inCart = product ? isInCart(product.id) : false;
+
   const handleAdd = async () => {
     try {
       await addItem({ productId: product.id, variantId: variant?.id, qty });
+      setJustAdded(true);
+      setTimeout(() => setJustAdded(false), 3000);
       toast(`${product.title} added to bag`, {
         type: "success",
         action: { label: "View bag", onClick: () => navigate("/cart") },
@@ -152,11 +159,38 @@ export default function ProductDetailPage() {
               alt={product.title}
               eager
             />
-            {product.isOnSale && product.discountPct ? (
+            {product.productType === "creator" && product.creator?.name ? (
+              <span className={s.mainBadge}>
+                <Badge tone="brand">Artisan Made</Badge>
+              </span>
+            ) : product.productType === "collab_bundle" ? (
+              <span className={s.mainBadge}>
+                <Badge tone="brand">Curated Set</Badge>
+              </span>
+            ) : product.productType === "affiliate" ? (
+              <span className={s.mainBadge}>
+                <Badge tone="neutral">Partner Pick</Badge>
+              </span>
+            ) : product.isOnSale && product.discountPct ? (
               <span className={s.mainBadge}>
                 <Badge tone="accent">{product.discountPct}% off</Badge>
               </span>
             ) : null}
+
+            {/* Floating Favourite (Wishlist) Button on top-right of image */}
+            <button
+              type="button"
+              onClick={() => toggle(product.id)}
+              aria-pressed={wishlisted}
+              aria-label={
+                wishlisted
+                  ? `Remove ${product.title} from wishlist`
+                  : `Save ${product.title} to wishlist`
+              }
+              className={cn(s.imageWishButton, wishlisted && s.imageWishButtonOn)}
+            >
+              <Heart />
+            </button>
           </div>
 
           {images.length > 1 && (
@@ -179,17 +213,17 @@ export default function ProductDetailPage() {
 
         {/* ---------- purchase panel ---------- */}
         <div className={s.info}>
-          <p className={s.eyebrow}>{product.subcategoryTitle}</p>
-          <h1 className={s.title}>{product.title}</h1>
-
-          {product.reviewCount > 0 && (
-            <Rating
-              value={summary?.average ?? product.rating}
-              count={summary?.total ?? product.reviewCount}
-              size={15}
-              className={s.rating}
-            />
+          {product.creator?.slug ? (
+            <p className={s.eyebrow}>
+              Artisan:{" "}
+              <Link to={`/creator/${product.creator.slug}`} style={{ textDecoration: "underline", color: "inherit" }}>
+                {product.creator.name}
+              </Link>
+            </p>
+          ) : (
+            <p className={s.eyebrow}>{product.subcategoryTitle}</p>
           )}
+          <h1 className={s.title}>{product.title}</h1>
 
           <Price
             listMinor={product.listPriceMinor}
@@ -242,48 +276,66 @@ export default function ProductDetailPage() {
           </div>
 
           <div className={s.purchase}>
-            <div className={s.stepper}>
-              <button
-                type="button"
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
-                disabled={qty <= 1}
-                aria-label="Decrease quantity"
+            {product.productType === "affiliate" ? (
+              <Button
+                size="lg"
+                onClick={() => {
+                  if (product.affiliate?.externalUrl) {
+                    window.open(product.affiliate.externalUrl, "_blank", "noopener,noreferrer");
+                  } else {
+                    navigate(`/partner/${product.slug}`);
+                  }
+                }}
+                className={s.addButton}
               >
-                <Minus />
-              </button>
-              <span aria-live="polite">{qty}</span>
-              <button
-                type="button"
-                onClick={() => setQty((q) => Math.min(maxQty || q + 1, q + 1))}
-                disabled={maxQty > 0 && qty >= maxQty}
-                aria-label="Increase quantity"
-              >
-                <Plus />
-              </button>
-            </div>
+                {product.affiliate?.buttonText || "Buy from Partner"}
+              </Button>
+            ) : (
+              <>
+                <div className={s.stepper}>
+                  <button
+                    type="button"
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                    disabled={qty <= 1}
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus />
+                  </button>
+                  <span aria-live="polite">{qty}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQty((q) => Math.min(maxQty || q + 1, q + 1))}
+                    disabled={maxQty > 0 && qty >= maxQty}
+                    aria-label="Increase quantity"
+                  >
+                    <Plus />
+                  </button>
+                </div>
 
-            <Button
-              size="lg"
-              onClick={handleAdd}
-              disabled={!product.inStock || maxQty === 0}
-              loading={pending}
-              startIcon={<ShoppingBag size={17} />}
-              className={s.addButton}
-            >
-              {product.inStock && maxQty > 0 ? "Add to bag" : "Sold out"}
-            </Button>
-
-            <Button
-              size="lg"
-              variant="secondary"
-              iconOnly
-              onClick={() => toggle(product.id)}
-              aria-pressed={wishlisted}
-              aria-label={wishlisted ? "Remove from wishlist" : "Save to wishlist"}
-              className={cn(s.wishButton, wishlisted && s.wishButtonOn)}
-            >
-              <Heart size={19} />
-            </Button>
+                <Button
+                  size="lg"
+                  onClick={handleAdd}
+                  disabled={!product.inStock || maxQty === 0}
+                  loading={pending}
+                  startIcon={
+                    justAdded ? (
+                      <Check size={18} />
+                    ) : (
+                      <ShoppingBag size={17} />
+                    )
+                  }
+                  className={cn(s.addButton, (justAdded || inCart) && s.addedButton)}
+                >
+                  {!product.inStock || maxQty === 0
+                    ? "Sold out"
+                    : justAdded
+                      ? "Added to bag"
+                      : inCart
+                        ? "Add more to bag"
+                        : "Add to bag"}
+                </Button>
+              </>
+            )}
           </div>
 
           <ul className={s.assurances}>
@@ -299,166 +351,284 @@ export default function ProductDetailPage() {
               Made and checked by hand
             </li>
           </ul>
-        </div>
-      </div>
 
-      {/* ---------- tabs ---------- */}
-      <section className={`container ${s.tabsSection}`}>
-        <div className={`${s.tabList} no-scrollbar`} role="tablist" aria-label="Product information">
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              role="tab"
-              aria-selected={tab === t.id}
-              onClick={() => setTab(t.id)}
-              className={cn(s.tab, tab === t.id && s.tabActive)}
-            >
-              {t.label}
-              {t.id === "reviews" && summary?.total ? ` (${summary.total})` : ""}
-            </button>
-          ))}
-        </div>
-
-        <div className={s.tabPanel} role="tabpanel">
-          {tab === "details" && (
-            <div className={s.prose}>
-              <p>{product.description}</p>
-              {product.specifications?.materials && (
-                <p>
-                  <strong>Made from:</strong> {product.specifications.materials}
-                </p>
-              )}
-              <p>
-                Because each piece is finished by hand, small differences in tone,
-                grain and finish are normal — and are the reason no two are
-                identical.
-              </p>
+          {/* ---------- Impact Tag: NGO products ---------- */}
+          {product.creator?.creatorCategory === "ngo_artisan" && product.impactTag && (
+            <div className={s.impactTag}>
+              <Leaf className={s.impactTagIcon} />
+              <span>{product.impactTag}</span>
             </div>
           )}
 
-          {tab === "specs" && (
-            <dl className={s.specs}>
-              {product.specifications?.dimensions && (
-                <div>
-                  <dt>Dimensions</dt>
-                  <dd>{product.specifications.dimensions}</dd>
+          {/* ---------- Who Made This? Artisan Card: NGO products ---------- */}
+          {product.creator?.creatorCategory === "ngo_artisan" && product.artisan && (
+            <div className={s.artisanSection}>
+              <button
+                type="button"
+                className={s.artisanHeader}
+                onClick={() => setArtisanOpen((o) => !o)}
+                aria-expanded={artisanOpen}
+              >
+                <div className={s.artisanHeaderLeft}>
+                  <div className={s.artisanAvatar} style={{ width: 36, height: 36, flex: "0 0 36px" }}>
+                    <img src={product.artisan.photo} alt={product.artisan.name} />
+                  </div>
+                  <div>
+                    <div className={s.artisanHeaderTitle}>Who Made This?</div>
+                    <div className={s.artisanHeaderSub}>Meet the artisan behind this piece</div>
+                  </div>
                 </div>
-              )}
-              {product.specifications?.materials && (
-                <div>
-                  <dt>Materials</dt>
-                  <dd>{product.specifications.materials}</dd>
+                <ChevronDown
+                  className={cn(s.artisanToggleIcon, artisanOpen && s.open)}
+                  aria-hidden="true"
+                />
+              </button>
+              <div className={cn(s.artisanBody, artisanOpen && s.visible)}>
+                <div className={s.artisanBodyInner}>
+                  <div className={s.artisanCard}>
+                    <div className={s.artisanAvatar}>
+                      <img src={product.artisan.photo} alt={product.artisan.name} loading="lazy" />
+                    </div>
+                    <div className={s.artisanInfo}>
+                      <p className={s.artisanName}>{product.artisan.name}</p>
+                      <p className={s.artisanLocation}>📍 {product.artisan.location}</p>
+                      <p className={s.artisanQuote}>"{product.artisan.quote}"</p>
+                    </div>
+                  </div>
                 </div>
-              )}
-              {product.ageGroup && (
-                <div>
-                  <dt>Suitable for</dt>
-                  <dd>{product.ageGroup}</dd>
-                </div>
-              )}
-              <div>
-                <dt>Category</dt>
-                <dd>
-                  {product.categoryTitle} · {product.subcategoryTitle}
-                </dd>
               </div>
-              {product.createdAt && (
-                <div>
-                  <dt>Added</dt>
-                  <dd>{formatDate(product.createdAt)}</dd>
-                </div>
-              )}
-            </dl>
-          )}
-
-          {tab === "gifting" && (
-            <div className={s.prose}>
-              {product.gifting?.idealFor && (
-                <p>
-                  <strong>Ideal for:</strong> {product.gifting.idealFor}
-                </p>
-              )}
-              {product.gifting?.targetAudience && (
-                <p>
-                  <strong>Who it suits:</strong> {product.gifting.targetAudience}
-                </p>
-              )}
-              <p>
-                Every order is wrapped in tissue, padded and sealed. Add a note at
-                checkout and we will write it by hand.
-              </p>
             </div>
           )}
 
-          {tab === "reviews" && (
-            <div className={s.reviews}>
-              {summary?.total ? (
-                <div className={s.reviewSummary}>
-                  <div className={s.reviewAverage}>
-                    <strong>{summary.average.toFixed(1)}</strong>
-                    <Rating value={summary.average} size={15} showValue={false} />
-                    <span>{pluralize(summary.total, "review")}</span>
+          {/* ---------- As Seen On Reel: Influencer products ---------- */}
+          {product.creator?.creatorCategory === "influencer" && product.seenOn && (
+            <div className={s.seenOnSection}>
+              <div className={s.seenOnHeader}>
+                <div className={s.seenOnIcon}>
+                  <Play aria-hidden="true" />
+                </div>
+                <div>
+                  <div className={s.seenOnTitle}>As Seen On Reel</div>
+                  <div className={s.seenOnHandle}>{product.seenOn.handle}</div>
+                </div>
+              </div>
+              <div className={s.seenOnVideoWrap}>
+                <video
+                  className={s.seenOnVideo}
+                  src={product.seenOn.reelVideoUrl}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                />
+              </div>
+              <div className={s.seenOnCtaRow}>
+                <span className={s.seenOnCtaText}>
+                  <strong>You saw it here first.</strong> Shop the exact piece from this reel.
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* ---------- Creator Video Note button: Influencer products ---------- */}
+          {product.creator?.creatorCategory === "influencer" && product.creatorVideoUrl && (
+            <button
+              type="button"
+              className={s.creatorNoteBtn}
+              onClick={() => setCreatorNoteOpen(true)}
+              aria-label="Watch creator video note for this product"
+            >
+              <Play size={18} color="#7c3aed" />
+              <div>
+                <div className={s.creatorNoteBtnText}>🎥 Watch Creator Note</div>
+                <div className={s.creatorNoteBtnSub}>{product.creator.name} shares the story behind this piece</div>
+              </div>
+            </button>
+          )}
+
+          {/* ---------- Product Detail Tabs (Embedded right below Made and checked by hand) ---------- */}
+          <div className={s.productTabsContainer}>
+            <div className={`${s.tabList} no-scrollbar`} role="tablist" aria-label="Product information">
+              {TABS.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={tab === t.id}
+                  onClick={() => setTab(t.id)}
+                  className={cn(s.tab, tab === t.id && s.tabActive)}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+
+            <div className={s.tabPanel} role="tabpanel">
+              {tab === "details" && (
+                <div className={s.prose}>
+                  <p>{product.description}</p>
+                  {product.specifications?.materials && (
+                    <p>
+                      <strong>Made from:</strong> {product.specifications.materials}
+                    </p>
+                  )}
+                  <p>
+                    Because each piece is finished by hand, small differences in tone,
+                    grain and finish are normal — and are the reason no two are
+                    identical.
+                  </p>
+                </div>
+              )}
+
+              {tab === "specs" && (
+                <div className={s.specsList}>
+                  {product.specifications?.dimensions && (
+                    <div className={s.specRow}>
+                      <span className={s.specKey}>Dimensions:</span>
+                      <span className={s.specVal}>{product.specifications.dimensions}</span>
+                    </div>
+                  )}
+                  {product.specifications?.materials && (
+                    <div className={s.specRow}>
+                      <span className={s.specKey}>Materials:</span>
+                      <span className={s.specVal}>{product.specifications.materials}</span>
+                    </div>
+                  )}
+                  {product.ageGroup && (
+                    <div className={s.specRow}>
+                      <span className={s.specKey}>Suitable for:</span>
+                      <span className={s.specVal}>{product.ageGroup}</span>
+                    </div>
+                  )}
+                  <div className={s.specRow}>
+                    <span className={s.specKey}>Category:</span>
+                    <span className={s.specVal}>
+                      {product.categoryTitle} · {product.subcategoryTitle}
+                    </span>
+                  </div>
+                  {product.createdAt && (
+                    <div className={s.specRow}>
+                      <span className={s.specKey}>Added on:</span>
+                      <span className={s.specVal}>{formatDate(product.createdAt)}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {tab === "gifting" && (
+                <div className={s.prose}>
+                  {product.gifting?.idealFor && (
+                    <p>
+                      <strong>Ideal for:</strong> {product.gifting.idealFor}
+                    </p>
+                  )}
+                  {product.gifting?.targetAudience && (
+                    <p>
+                      <strong>Who it suits:</strong> {product.gifting.targetAudience}
+                    </p>
+                  )}
+                  <p>
+                    Every order is wrapped in tissue, padded and sealed. Add a note at
+                    checkout and we will write it by hand.
+                  </p>
+                </div>
+              )}
+
+              {tab === "reviews" && (
+                <div className={s.reviews}>
+                  <div className={s.reviewList}>
+                    {(reviews?.items ?? []).map((review) => (
+                      <div key={review.id} className={s.reviewItem}>
+                        <div className={s.reviewTopRow}>
+                          <span className={s.reviewAuthor}>{review.authorName}</span>
+                          {review.isVerifiedPurchase && (
+                            <span className={s.verifiedTag}>Verified</span>
+                          )}
+                          <Rating value={review.rating} size={11} showValue={false} />
+                          <span className={s.reviewDate}>{formatDate(review.createdAt)}</span>
+                        </div>
+                        {review.title && <p className={s.reviewTitleText}>{review.title}</p>}
+                        <p className={s.reviewBodyText}>{review.body}</p>
+                      </div>
+                    ))}
                   </div>
 
-                  <ul className={s.histogram}>
-                    {[5, 4, 3, 2, 1].map((star) => {
-                      const count = summary.distribution[star] ?? 0;
-                      const pct = summary.total ? (count / summary.total) * 100 : 0;
-                      return (
-                        <li key={star}>
-                          <span className={s.histLabel}>{star}★</span>
-                          <span className={s.histTrack}>
-                            <span className={s.histFill} style={{ width: `${pct}%` }} />
-                          </span>
-                          <span className={s.histCount}>{count}</span>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  {!reviews?.items?.length && (
+                    <p className={s.noReviews}>
+                      No reviews for this piece yet. Yours would be the first.
+                    </p>
+                  )}
                 </div>
-              ) : null}
-
-              <ul className={s.reviewList}>
-                {(reviews?.items ?? []).map((review) => (
-                  <li key={review.id} className={s.review}>
-                    <div className={s.reviewHead}>
-                      <div>
-                        <p className={s.reviewName}>{review.authorName}</p>
-                        <p className={s.reviewMeta}>
-                          {review.authorEmail}
-                          {review.isVerifiedPurchase && " · Verified purchase"}
-                        </p>
-                      </div>
-                      <Rating value={review.rating} size={13} showValue={false} />
-                    </div>
-                    {review.title && <p className={s.reviewTitle}>{review.title}</p>}
-                    <p className={s.reviewBody}>{review.body}</p>
-                    <p className={s.reviewDate}>{formatDate(review.createdAt)}</p>
-                  </li>
-                ))}
-              </ul>
-
-              {!reviews?.items?.length && (
-                <p className={s.noReviews}>
-                  No reviews for this piece yet. Yours would be the first.
-                </p>
               )}
             </div>
-          )}
+          </div>
         </div>
-      </section>
+      </div>
 
       {/* ---------- related ---------- */}
       {related?.length > 0 && (
         <section className={`container ${s.related}`}>
           <SectionHeading
-            eyebrow="You might also like"
-            title={`More from ${product.subcategoryTitle}`}
+            eyebrow={
+              product.productType === "affiliate" || product.affiliate
+                ? "Curated Partner Picks"
+                : product.creator?.name
+                  ? "Artisan Spotlight"
+                  : product.collaborationSlug
+                    ? "Brand Collaboration"
+                    : "You might also like"
+            }
+            title={
+              product.productType === "affiliate" || product.affiliate
+                ? "More Partner Picks"
+                : product.creator?.name
+                  ? `More by ${product.creator.name}`
+                  : product.collaborationSlug
+                    ? "More from this Collaboration"
+                    : `More from ${product.subcategoryTitle || "this category"}`
+            }
             align="split"
           />
           <ProductGrid products={related} columns={4} />
         </section>
+      )}
+
+      {/* ---------- Creator Video Note Modal (Influencer) ---------- */}
+      {creatorNoteOpen && product?.creatorVideoUrl && (
+        <div
+          className={s.creatorNoteModal}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Creator video note"
+          onClick={(e) => { if (e.target === e.currentTarget) setCreatorNoteOpen(false); }}
+        >
+          <div className={s.creatorNoteModalCard}>
+            <div className={s.creatorNoteModalHeader}>
+              <span className={s.creatorNoteModalTitle}>🎥 Creator Note — {product.creator?.name}</span>
+              <button
+                type="button"
+                className={s.creatorNoteCloseBtn}
+                onClick={() => setCreatorNoteOpen(false)}
+                aria-label="Close video"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <div className={s.creatorNoteVideoWrap}>
+              <video
+                className={s.creatorNoteVideo}
+                src={product.creatorVideoUrl}
+                autoPlay
+                controls
+                playsInline
+              />
+            </div>
+            <p className={s.creatorNoteCaption}>
+              "{product.creator?.name} shares the story, craft and heart behind this piece — straight from their studio."
+            </p>
+          </div>
+        </div>
       )}
     </>
   );

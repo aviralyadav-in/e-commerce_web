@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { Lock, Mail, User } from "lucide-react";
 import SEO from "../components/common/SEO.jsx";
 import Button from "../components/ui/Button.jsx";
 import { Input } from "../components/ui/Field.jsx";
-import FilmstripShowcase from "../features/auth/FilmstripShowcase.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useUI } from "../context/UIContext.jsx";
 import { BRAND } from "../config/site.js";
@@ -18,6 +17,23 @@ import s from "./AuthPage.module.css";
  * calls for toggling without a reload and because the typed email must survive
  * the switch — two routes would unmount the form and throw it away.
  */
+const TICKER_SUBCATEGORIES = [
+  "Wall Decor",
+  "Scented Candles",
+  "Crochet Bouquets",
+  "Nameplates",
+  "Pooja Thalis",
+  "Tote Bags",
+  "Decorative Clocks",
+  "Resin Frames",
+  "Festive Torans",
+  "Wax Melts",
+  "Gift Hampers",
+  "Plushies",
+  "Bubble Candles",
+  "Keychains",
+];
+
 export default function AuthPage() {
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
@@ -32,10 +48,14 @@ export default function AuthPage() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState(null);
+  const [tickerIndex, setTickerIndex] = useState(0);
 
-  if (!loading && isAuthenticated) {
-    return <Navigate to={redirect} replace />;
-  }
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTickerIndex((prev) => (prev + 1) % TICKER_SUBCATEGORIES.length);
+    }, 2400);
+    return () => clearInterval(timer);
+  }, []);
 
   const setMode = (next) => {
     setErrors({});
@@ -72,11 +92,57 @@ export default function AuthPage() {
     }
   };
 
+  // Safe redirect check after all hooks have been called
+  if (!loading && isAuthenticated) {
+    return <Navigate to={redirect} replace />;
+  }
+
   return (
     <>
       <SEO title={isSignUp ? "Create an account" : "Sign in"} noIndex />
 
       <div className={s.page}>
+        {/* Brand name on top middle so user can get back home by clicking it */}
+        <header className={s.brandBar}>
+          <Link to="/" className={s.brandLogo} aria-label={`${BRAND.name} Home`}>
+            <span className={s.brandName}>{BRAND.name}</span>
+            <span className={s.brandTagline}>{BRAND.tagline}</span>
+          </Link>
+        </header>
+
+        {/* Mobile-only 3-Line Centered Rotating Typography Composition */}
+        <div className={s.mobileCompositionBanner} aria-label="CraftiNiya Category Spotlight">
+          <div className={s.compositionContainer}>
+            {/* Line 1: Top, Centered, Fixed Static Text */}
+
+            {/* Line 2: Middle, Dynamic Rotating Text with Left (outgoing), Center (active), Right (incoming) slots */}
+            <div className={s.compLine2Track}>
+              <div
+                key={tickerIndex}
+                className={s.compSlotsWrapper}
+                aria-live="polite"
+              >
+                {/* Left Slot: Outgoing Keyword (faded, off-focus) */}
+                <span className={s.compSlotLeft} aria-hidden="true">
+                  {TICKER_SUBCATEGORIES[(tickerIndex - 1 + TICKER_SUBCATEGORIES.length) % TICKER_SUBCATEGORIES.length]}
+                </span>
+
+                {/* Center Slot: Active Keyword (main focus, 100% opacity) */}
+                <span className={s.compSlotCenter}>
+                  {TICKER_SUBCATEGORIES[tickerIndex]}
+                </span>
+
+                {/* Right Slot: Incoming Keyword (faded, off-focus) */}
+                <span className={s.compSlotRight} aria-hidden="true">
+                  {TICKER_SUBCATEGORIES[(tickerIndex + 1) % TICKER_SUBCATEGORIES.length]}
+                </span>
+              </div>
+            </div>
+
+            {/* Line 3: Bottom, Centered, Fixed Static Text */}
+          </div>
+        </div>
+
         <div className={s.panel}>
           <div className={s.formWrap}>
             <div className={s.toggle} role="tablist" aria-label="Account">
@@ -103,15 +169,6 @@ export default function AuthPage() {
             {/* Announced so the mode change is not silent for screen readers. */}
             <p className="sr-only" aria-live="polite">
               {isSignUp ? "Create account form" : "Sign in form"}
-            </p>
-
-            <h1 className={s.title}>
-              {isSignUp ? "Make yourself at home." : "Good to see you again."}
-            </h1>
-            <p className={s.subtitle}>
-              {isSignUp
-                ? "An account keeps your bag, your wishlist and your order history in one place."
-                : "Sign in to pick up where you left off."}
             </p>
 
             <form className={s.form} onSubmit={submit} noValidate>
@@ -176,8 +233,6 @@ export default function AuthPage() {
               email about your orders.
             </p>
           </div>
-
-          <FilmstripShowcase />
         </div>
       </div>
     </>

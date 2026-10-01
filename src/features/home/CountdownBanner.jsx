@@ -1,92 +1,75 @@
-import { Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Gift, ArrowRight, Sparkles } from "lucide-react";
 import Button from "../../components/ui/Button.jsx";
-import { useAsync } from "../../hooks/useAsync.js";
-import { useCountdown } from "../../hooks/useCountdown.js";
-import promoService from "../../services/promoService.js";
+import giftBoxBanner from "../../assets/giftbox_banner.jpg";
 import s from "./CountdownBanner.module.css";
 
-/**
- * Festival countdown.
- *
- * Driven entirely by promoService, so switching a sale on or off is data, not
- * a deploy. Three details that matter:
- *
- *  - When no promotion is running the component renders NOTHING — not an empty
- *    shell. A banner that reserves height while invisible pushes the page down
- *    and shows up as layout shift.
- *  - The deadline is a UTC instant, formatted in the viewer's own zone. A bare
- *    "ends 11:59 PM" is wrong for every customer outside IST.
- *  - The clock runs off a server-time offset, because a device whose system
- *    clock is wrong would otherwise show a wrong timer, or a live sale as
- *    already expired.
- *
- * The one-second tick lives in this component alone, so the rest of the home
- * page is not re-rendered every second.
- */
+const BANNER_IMAGE =
+  "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1200&q=85";
+
 export default function CountdownBanner() {
-  const { data: promo } = useAsync((opts) => promoService.getActivePromotion(opts), []);
-  const { data: serverTime } = useAsync((opts) => promoService.getServerTime(opts), []);
-
-  const { days, hours, minutes, seconds, isExpired } = useCountdown(
-    promo?.endsAt,
-    serverTime?.nowIso,
-  );
-
-  if (!promo || isExpired) return null;
-
-  const endsLocal = promo.endsAt
-    ? new Intl.DateTimeFormat("en-IN", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date(promo.endsAt))
-    : null;
-
-  const units = [
-    { value: days, label: days === 1 ? "Day" : "Days" },
-    { value: hours, label: "Hours" },
-    { value: minutes, label: "Mins" },
-    { value: seconds, label: "Secs" },
-  ];
+  const [imgSrc, setImgSrc] = useState(giftBoxBanner);
 
   return (
-    <section className={s.banner} aria-labelledby="countdown-heading">
-      <div className={`container ${s.inner}`}>
-        <div className={s.copy}>
-          <p className={s.label}>
-            <Sparkles aria-hidden="true" />
-            {promo.label}
-          </p>
-          <h2 id="countdown-heading" className={s.headline}>
-            {promo.headline}
-          </h2>
-          {promo.subline && <p className={s.subline}>{promo.subline}</p>}
-        </div>
+    <section className={s.banner} aria-labelledby="giftbox-banner-heading">
+      <div className="container">
+        <div className={s.card}>
+          {/* Content Column */}
+          <div className={s.contentCol}>
+            <div className={s.headerRow}>
+              <div className={s.label}>
+                <Gift size={12} aria-hidden="true" />
+                <span>Build Your Own</span>
+              </div>
+              <span className={s.priceBadge}>From ₹499</span>
+            </div>
 
-        <div className={s.timerBlock}>
-          {/* The live region is polite and coarse: announcing every second
-              would make a screen reader unusable. */}
-          <p className="sr-only" aria-live="polite">
-            {days} days and {hours} hours left in this sale.
-          </p>
+            <h2 id="giftbox-banner-heading" className={s.headline}>
+              Personalize Your GiftBox
+            </h2>
 
-          <ul className={s.timer} aria-hidden="true">
-            {units.map((unit) => (
-              <li key={unit.label} className={s.unit}>
-                <span className={s.unitValue}>
-                  {String(unit.value).padStart(2, "0")}
-                </span>
-                <span className={s.unitLabel}>{unit.label}</span>
-              </li>
-            ))}
-          </ul>
+            <div className={s.perksRow}>
+              <span className={s.perkItem}>✨ Custom note included</span>
+              <span className={s.perkDot}>•</span>
+              <span className={s.perkItem}>🌿 Handcrafted pieces</span>
+              <span className={s.perkDot}>•</span>
+              <span className={s.perkItem}>📦 Ready in 2 days</span>
+            </div>
 
-          {endsLocal && <p className={s.ends}>Ends {endsLocal}</p>}
+            {/* Action Area */}
+            <div className={s.actionArea}>
+              <Button
+                to="/gift-box"
+                variant="accent"
+                size="sm"
+                className={s.cta}
+                endIcon={<ArrowRight size={14} aria-hidden="true" />}
+              >
+                Start Building Your Box
+              </Button>
+            </div>
+          </div>
 
-          <Button to={promo.ctaHref} variant="accent" size="lg" className={s.cta}>
-            {promo.ctaLabel}
-          </Button>
+          {/* Media Column */}
+          <div className={s.mediaCol}>
+            <div className={s.imageCard}>
+              <img
+                src={imgSrc}
+                alt="Artisanal Handcrafted Gift Box with Scented Candle and Floral Resin Coaster"
+                className={s.image}
+                loading="lazy"
+                onError={() => setImgSrc(BANNER_IMAGE)}
+              />
+              <div className={s.imageBadge}>
+                <Sparkles size={11} aria-hidden="true" />
+                <span>Studio Keepsake Box</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+

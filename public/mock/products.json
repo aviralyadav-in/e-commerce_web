@@ -4,6 +4,10 @@
     "slug": "macrame-boho-wall-hanging",
     "title": "Macramé Boho Wall Hanging",
     "description": "Hand-knotted cotton cord hanging with a fringed hem, sized for above a bed or sofa.",
+    "image": "https://okhai.org/cdn/shop/products/12_dbd02675-3567-4efe-89bb-f6693c9cd5d8.jpg?v=1754296513",
+    "images": [
+      "https://okhai.org/cdn/shop/products/12_dbd02675-3567-4efe-89bb-f6693c9cd5d8.jpg?v=1754296513"
+    ],
     "category": "home-decor",
     "subcategory": "wall-decor",
     "gender": "unisex",
@@ -31,6 +35,21 @@
         "name": "Standard"
       }
     ],
+    "productType": "creator",
+    "creator": {
+      "name": "Ananya Sharma",
+      "slug": "local-artisans",
+      "creatorCategory": "ngo_artisan",
+      "mediaType": "banner",
+      "mediaUrl": "https://okhai.org/cdn/shop/products/12_dbd02675-3567-4efe-89bb-f6693c9cd5d8.jpg"
+    },
+    "artisan": {
+      "name": "Sunita Devi",
+      "location": "Barmer, Rajasthan",
+      "photo": "https://images.unsplash.com/photo-1590086782957-93c06ef21604?auto=format&fit=crop&w=400&q=80",
+      "quote": "I learned to knot macramé from my grandmother. Every thread I tie carries a memory of home."
+    },
+    "impactTag": "Your purchase supports 2 days of skill training for rural women",
     "isBestSeller": true,
     "inStock": true,
     "stockCount": 23,
@@ -41,7 +60,11 @@
     "slug": "lippan-mirror-mud-art-panel",
     "title": "Lippan Mirror Mud Art Panel",
     "description": "Kutch-inspired relief work set with hand-cut mirrors on a round base.",
-    "category": "home-decor",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
+    "category": "home-decor",  
     "subcategory": "wall-decor",
     "gender": "unisex",
     "price": 1899,
@@ -53,6 +76,21 @@
     "orderCount": 86,
     "createdAt": "2026-06-15",
     "isFeatured": true,
+    "productType": "creator",
+    "creator": {
+      "name": "Ananya Sharma",
+      "slug": "local-artisans",
+      "creatorCategory": "ngo_artisan",
+      "mediaType": "banner",
+      "mediaUrl": "https://okhai.org/cdn/shop/products/12_dbd02675-3567-4efe-89bb-f6693c9cd5d8.jpg"
+    },
+    "artisan": {
+      "name": "Kamla Ben",
+      "location": "Kutch, Gujarat",
+      "photo": "https://images.unsplash.com/photo-1564460576398-ef55d99548b2?auto=format&fit=crop&w=400&q=80",
+      "quote": "Lippan kaam is our village's heritage. I set each mirror by hand — no two panels are ever the same."
+    },
+    "impactTag": "Your purchase preserves 3 days of ancestral Lippan craft heritage",
     "ageGroup": "All ages",
     "specifications": {
       "dimensions": "Diameter (12 inches)",
@@ -74,40 +112,111 @@
     "lowStock": false
   },
   {
-    "id": "prod-wall-decor-03",
-    "slug": "resin-ocean-wave-wall-art",
-    "title": "Resin Ocean Wave Wall Art",
-    "description": "Layered resin waves poured over a white base and edged in gold leaf.",
+    "id": "prod-resin-pendant-01",
+    "slug": "botanical-resin-pendant-necklace",
+    "title": "Botanical Resin Teardrop Pendant",
+    "description": "Handcrafted crystal-clear resin teardrop pendant encasing real wild forget-me-nots and fern fronds on an 18k gold-plated chain.",
+    "image": "https://images.pexels.com/photos/16110426/pexels-photo-16110426.jpeg",
+    "images": [
+      "https://images.pexels.com/photos/16110426/pexels-photo-16110426.jpeg"
+    ],
     "category": "home-decor",
     "subcategory": "wall-decor",
     "gender": "unisex",
-    "price": 2499,
-    "salePrice": null,
-    "isOnSale": false,
-    "discountPercentage": 0,
-    "rating": 4.5,
-    "reviewCount": 2,
-    "orderCount": 95,
+    "price": 1199,
+    "salePrice": 999,
+    "isOnSale": true,
+    "discountPercentage": 17,
+    "rating": 4.8,
+    "reviewCount": 12,
+    "orderCount": 142,
     "createdAt": "2026-07-27",
-    "isFeatured": false,
+    "isFeatured": true,
+    "productType": "creator",
+    "creator": {
+      "name": "Priya Creations",
+      "slug": "priya-crafts",
+      "creatorCategory": "influencer",
+      "mediaType": "reel",
+      "mediaUrl": "https://www.pexels.com/download/video/7253687/"
+    },
+    "seenOn": {
+      "handle": "@priyacrafts.studio",
+      "reelVideoUrl": "https://www.pexels.com/download/video/7253689/"
+    },
+    "creatorVideoUrl": "https://www.pexels.com/download/video/7253689/",
     "ageGroup": "All ages",
     "specifications": {
-      "dimensions": "Length (18 inches), Width (12 inches)",
-      "materials": "Epoxy resin, mica pigments, gold leaf, MDF"
+      "dimensions": "Pendant (1.5 inches), Chain (18 inches)",
+      "materials": "Eco-resin, preserved flowers, 18k gold-plated brass"
     },
     "gifting": {
-      "idealFor": "Housewarming, Festivals, Anniversaries",
-      "targetAudience": "Anyone setting up or refreshing a home"
+      "idealFor": "Birthdays, Anniversaries, Everyday Wear",
+      "targetAudience": "Lovers of delicate handmade botanical jewelry"
     },
     "variants": [
       {
-        "id": "prod-wall-decor-03-v1",
-        "name": "Standard"
+        "id": "prod-resin-pendant-01-v1",
+        "name": "Teardrop Gold"
       }
     ],
-    "isBestSeller": false,
+    "isBestSeller": true,
     "inStock": true,
-    "stockCount": 6,
+    "stockCount": 18,
+    "lowStock": false
+  },
+  {
+    "id": "prod-resin-bangles-01",
+    "slug": "floral-resin-statement-bangles",
+    "title": "Floral Resin Statement Bangles (Set of 2)",
+    "description": "Chunky hand-cast resin bangles embedded with real dried marigold petals, gold flakes, and botanical stems.",
+    "image": "https://media.istockphoto.com/id/599912818/photo/fashion-portrait-of-beautiful-hippie-young-woman.jpg?s=1024x1024&w=is&k=20&c=EISIcQTdgCHbtMgUmObFPwERivXjv3OsgPdfYPweocA=",
+    "images": [
+      "https://media.istockphoto.com/id/599912818/photo/fashion-portrait-of-beautiful-hippie-young-woman.jpg?s=1024x1024&w=is&k=20&c=EISIcQTdgCHbtMgUmObFPwERivXjv3OsgPdfYPweocA="
+    ],
+    "category": "home-decor",
+    "subcategory": "wall-decor",
+    "gender": "unisex",
+    "price": 1499,
+    "salePrice": 1299,
+    "isOnSale": true,
+    "discountPercentage": 13,
+    "rating": 4.9,
+    "reviewCount": 15,
+    "orderCount": 180,
+    "createdAt": "2026-08-01",
+    "isFeatured": true,
+    "productType": "creator",
+    "creator": {
+      "name": "Priya Creations",
+      "slug": "priya-crafts",
+      "creatorCategory": "influencer",
+      "mediaType": "reel",
+      "mediaUrl": "https://www.pexels.com/download/video/7253687/"
+    },
+    "seenOn": {
+      "handle": "@priyacrafts.studio",
+      "reelVideoUrl": "https://www.pexels.com/download/video/7253687/"
+    },
+    "creatorVideoUrl": "https://www.pexels.com/download/video/7253687/",
+    "ageGroup": "All ages",
+    "specifications": {
+      "dimensions": "Inner Diameter (2.5 inches), Width (1 inch)",
+      "materials": "Hand-poured epoxy resin, real dried marigold, gold leaf"
+    },
+    "gifting": {
+      "idealFor": "Festivals, Weddings, Boho Styling",
+      "targetAudience": "Anyone looking for statement handcrafted resin jewelry"
+    },
+    "variants": [
+      {
+        "id": "prod-resin-bangles-01-v1",
+        "name": "Gold Marigold"
+      }
+    ],
+    "isBestSeller": true,
+    "inStock": true,
+    "stockCount": 14,
     "lowStock": false
   },
   {
@@ -115,6 +224,10 @@
     "slug": "floral-welcome-door-hanging",
     "title": "Floral Welcome Door Hanging",
     "description": "Hand-painted wooden hanging with a welcome script and dried-flower accents.",
+    "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSc_95dGG67BO2kkUykTLK1FQ1AN2CpWE5BvJsSlmQlYANkO_X8oNGPrZL3OwcKAmMRmHisXz_R2qlGMNzBQomK67eW9stWBg",
+    "images": [
+      "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSc_95dGG67BO2kkUykTLK1FQ1AN2CpWE5BvJsSlmQlYANkO_X8oNGPrZL3OwcKAmMRmHisXz_R2qlGMNzBQomK67eW9stWBg"
+    ],
     "category": "home-decor",
     "subcategory": "door-decor",
     "gender": "unisex",
@@ -152,6 +265,10 @@
     "slug": "dried-flower-door-wreath",
     "title": "Dried Flower Door Wreath",
     "description": "A full wreath of preserved flowers and grasses on a natural vine ring.",
+    "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTPpIcFJOMM8G4iy2jIT89EeGA-RLz2YyvB5j8siMHHuEzvBCIXQSckfO_Pu2j5ATYm4DtUd_T5hpxBkThIZ2JkxuuT_WKJXu2g4d_LmTZFWJws0M_0eZAl",
+    "images": [
+      "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTPpIcFJOMM8G4iy2jIT89EeGA-RLz2YyvB5j8siMHHuEzvBCIXQSckfO_Pu2j5ATYm4DtUd_T5hpxBkThIZ2JkxuuT_WKJXu2g4d_LmTZFWJws0M_0eZAl"
+    ],
     "category": "home-decor",
     "subcategory": "door-decor",
     "gender": "unisex",
@@ -189,6 +306,10 @@
     "slug": "crochet-door-knob-hangers-set-of-2",
     "title": "Crochet Door Knob Hangers (Set of 2)",
     "description": "Soft crocheted hangers that dress up a door handle or cupboard knob.",
+    "image": "https://m.media-amazon.com/images/I/71YyvW-X9RL._SL1200_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/71YyvW-X9RL._SL1200_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "door-decor",
     "gender": "unisex",
@@ -226,6 +347,10 @@
     "slug": "pressed-petal-resin-coasters-set-of-4",
     "title": "Pressed Petal Resin Coasters (Set of 4)",
     "description": "Glossy resin coasters with pressed petals, stacked in a matching holder.",
+    "image": "https://m.media-amazon.com/images/I/71%2By03pXFGL._SL1500_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/71%2By03pXFGL._SL1500_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "table-decor",
     "gender": "unisex",
@@ -238,6 +363,19 @@
     "orderCount": 250,
     "createdAt": "2026-03-16",
     "isFeatured": false,
+    "productType": "creator",
+    "creator": {
+      "name": "Priya Creations",
+      "slug": "priya-crafts",
+      "creatorCategory": "influencer",
+      "mediaType": "reel",
+      "mediaUrl": "https://videos.pexels.com/video-files/34428330/14585482_1280_720_50fps.mp4"
+    },
+    "seenOn": {
+      "handle": "@priyacrafts.studio",
+      "reelVideoUrl": "https://videos.pexels.com/video-files/5634000/5634000-hd_1280_720_24fps.mp4"
+    },
+    "creatorVideoUrl": "https://videos.pexels.com/video-files/5634000/5634000-hd_1280_720_24fps.mp4",
     "ageGroup": "All ages",
     "specifications": {
       "dimensions": "Diameter (4 inches) each",
@@ -263,6 +401,10 @@
     "slug": "terracotta-bud-vase-trio",
     "title": "Terracotta Bud Vase Trio",
     "description": "Three hand-thrown bud vases in graded heights, one stem each.",
+    "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSN7mrW6ehJg0hsegM-rXYYSDkXvfQQl2VsNAvU12_uSk2-ud0jFwS-4QzwogOzdJanydIB1j5EhXSNK_KlexHHaVeLoaS8OCkGVXVAhbKJkDluL4b2aF6CLiI",
+    "images": [
+      "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSN7mrW6ehJg0hsegM-rXYYSDkXvfQQl2VsNAvU12_uSk2-ud0jFwS-4QzwogOzdJanydIB1j5EhXSNK_KlexHHaVeLoaS8OCkGVXVAhbKJkDluL4b2aF6CLiI"
+    ],
     "category": "home-decor",
     "subcategory": "table-decor",
     "gender": "unisex",
@@ -300,6 +442,10 @@
     "slug": "brass-urli-centrepiece",
     "title": "Brass Urli Centrepiece",
     "description": "Shallow brass urli for floating flowers and tea lights on a dining or coffee table.",
+    "image": "https://m.media-amazon.com/images/I/81x-sV%2B1iTL._SL1500_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/81x-sV%2B1iTL._SL1500_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "table-decor",
     "gender": "unisex",
@@ -337,6 +483,10 @@
     "slug": "pressed-flower-glass-frame",
     "title": "Pressed Flower Glass Frame",
     "description": "Real pressed flowers sealed between two panes in a slim wooden frame.",
+    "image": "https://m.media-amazon.com/images/I/71R2H3PZFFL._SL1500_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/71R2H3PZFFL._SL1500_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "frames",
     "gender": "unisex",
@@ -374,6 +524,10 @@
     "slug": "hand-carved-wooden-photo-frame",
     "title": "Hand-Carved Wooden Photo Frame",
     "description": "Floral carving around a 4x6 photo window, finished in a warm walnut stain.",
+    "image": "https://m.media-amazon.com/images/I/81e5v59AALL._SL1500_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/81e5v59AALL._SL1500_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "frames",
     "gender": "unisex",
@@ -411,6 +565,10 @@
     "slug": "resin-floral-border-frame",
     "title": "Resin Floral Border Frame",
     "description": "Photo frame cast in clear resin with dried blooms along the border.",
+    "image": "https://m.media-amazon.com/images/I/71uV4d+8FDL._SL1500_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/71uV4d+8FDL._SL1500_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "frames",
     "gender": "unisex",
@@ -423,6 +581,19 @@
     "orderCount": 94,
     "createdAt": "2026-05-16",
     "isFeatured": false,
+    "productType": "creator",
+    "creator": {
+      "name": "Priya Creations",
+      "slug": "priya-crafts",
+      "creatorCategory": "influencer",
+      "mediaType": "reel",
+      "mediaUrl": "https://videos.pexels.com/video-files/34428330/14585482_1280_720_50fps.mp4"
+    },
+    "seenOn": {
+      "handle": "@priyacrafts.studio",
+      "reelVideoUrl": "https://videos.pexels.com/video-files/6275420/6275420-sd_960_506_30fps.mp4"
+    },
+    "creatorVideoUrl": "https://videos.pexels.com/video-files/6275420/6275420-sd_960_506_30fps.mp4",
     "ageGroup": "All ages",
     "specifications": {
       "dimensions": "Length (8 inches), Width (8 inches)",
@@ -448,6 +619,10 @@
     "slug": "resin-floral-nameplate",
     "title": "Resin Floral Nameplate",
     "description": "Round resin nameplate with pressed flowers and gold lettering for the front door.",
+    "image": "https://m.media-amazon.com/images/I/71fD6vU-HGL._SL1500_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/71fD6vU-HGL._SL1500_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "nameplates",
     "gender": "unisex",
@@ -485,6 +660,10 @@
     "slug": "engraved-mango-wood-nameplate",
     "title": "Engraved Mango Wood Nameplate",
     "description": "Laser-engraved nameplate on solid wood, sealed for outdoor walls.",
+    "image": "https://m.media-amazon.com/images/I/81xP7nL2TUL._SL1500_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/81xP7nL2TUL._SL1500_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "nameplates",
     "gender": "unisex",
@@ -522,6 +701,10 @@
     "slug": "mandala-art-nameplate",
     "title": "Mandala Art Nameplate",
     "description": "Hand-painted dot mandala nameplate on a sturdy round base.",
+    "image": "https://m.media-amazon.com/images/I/71Y-1vR6l-L._SL1500_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/71Y-1vR6l-L._SL1500_.jpg"
+    ],
     "category": "home-decor",
     "subcategory": "nameplates",
     "gender": "unisex",
@@ -536,8 +719,8 @@
     "isFeatured": false,
     "ageGroup": "All ages",
     "specifications": {
-      "dimensions": "Diameter (10 inches)",
-      "materials": "MDF, acrylic paint, varnish"
+      "dimensions": "Diameter (12 inches)",
+      "materials": "MDF, acrylic paint, protective sealant"
     },
     "gifting": {
       "idealFor": "Housewarming, Festivals, Anniversaries",
@@ -551,7 +734,7 @@
     ],
     "isBestSeller": false,
     "inStock": true,
-    "stockCount": 18,
+    "stockCount": 19,
     "lowStock": false
   },
   {
@@ -561,6 +744,10 @@
     "description": "Silent-sweep wall clock set in a resin geode with gold edges.",
     "category": "home-decor",
     "subcategory": "clocks",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 2799,
     "salePrice": null,
@@ -598,6 +785,10 @@
     "description": "Folk motifs painted by hand around a quiet quartz movement.",
     "category": "home-decor",
     "subcategory": "clocks",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 1499,
     "salePrice": null,
@@ -635,6 +826,10 @@
     "description": "A wooden clock face ringed with knotted cotton fringe.",
     "category": "home-decor",
     "subcategory": "clocks",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 1299,
     "salePrice": null,
@@ -672,6 +867,10 @@
     "description": "Food-safe resin tray in marbled pastels with brass handles.",
     "category": "home-decor",
     "subcategory": "decorative-trays",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 1899,
     "salePrice": 1599,
@@ -713,6 +912,10 @@
     "description": "Rectangular wooden tray with a hand-set resin inlay.",
     "category": "home-decor",
     "subcategory": "decorative-trays",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 1599,
     "salePrice": null,
@@ -750,6 +953,10 @@
     "description": "Small resin trinket tray for rings and keys, edged in gold.",
     "category": "home-decor",
     "subcategory": "decorative-trays",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 649,
     "salePrice": null,
@@ -787,6 +994,10 @@
     "description": "Crocheted mandala centre with feathers and wooden beads.",
     "category": "home-decor",
     "subcategory": "hanging-decor",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 799,
     "salePrice": null,
@@ -797,6 +1008,21 @@
     "orderCount": 198,
     "createdAt": "2026-03-19",
     "isFeatured": false,
+    "productType": "creator",
+    "creator": {
+      "name": "Ananya Sharma",
+      "slug": "local-artisans",
+      "creatorCategory": "ngo_artisan",
+      "mediaType": "banner",
+      "mediaUrl": "https://okhai.org/cdn/shop/products/12_dbd02675-3567-4efe-89bb-f6693c9cd5d8.jpg"
+    },
+    "artisan": {
+      "name": "Rekha Kumari",
+      "location": "Jaipur, Rajasthan",
+      "photo": "https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?auto=format&fit=crop&w=400&q=80",
+      "quote": "I crochet dreamcatchers in evenings after cooking. This craft gave me financial independence for the first time."
+    },
+    "impactTag": "Your purchase funds childcare access for 1 artisan mother for a week",
     "ageGroup": "All ages",
     "specifications": {
       "dimensions": "Diameter (8 inches), Length (22 inches)",
@@ -824,6 +1050,10 @@
     "description": "Brass bells strung on beaded cords for a balcony or doorway.",
     "category": "home-decor",
     "subcategory": "hanging-decor",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 599,
     "salePrice": null,
@@ -849,6 +1079,21 @@
         "name": "Standard"
       }
     ],
+    "productType": "creator",
+    "creator": {
+      "name": "Ananya Sharma",
+      "slug": "local-artisans",
+      "creatorCategory": "ngo_artisan",
+      "mediaType": "banner",
+      "mediaUrl": "https://okhai.org/cdn/shop/products/12_dbd02675-3567-4efe-89bb-f6693c9cd5d8.jpg"
+    },
+    "artisan": {
+      "name": "Meera Bai",
+      "location": "Jodhpur, Rajasthan",
+      "photo": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=400&q=80",
+      "quote": "Tying these hand-cast brass bells gives me steady livelihood and self-respect in my community."
+    },
+    "impactTag": "Your purchase sponsors 1 week of nutrition supplement for rural artisan families",
     "isBestSeller": true,
     "inStock": true,
     "stockCount": 33,
@@ -861,6 +1106,10 @@
     "description": "Handwoven rattan planter on a macramé hanger for trailing plants.",
     "category": "home-decor",
     "subcategory": "hanging-decor",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 899,
     "salePrice": null,
@@ -886,6 +1135,21 @@
         "name": "Standard"
       }
     ],
+    "productType": "creator",
+    "creator": {
+      "name": "Ananya Sharma",
+      "slug": "local-artisans",
+      "creatorCategory": "ngo_artisan",
+      "mediaType": "banner",
+      "mediaUrl": "https://okhai.org/cdn/shop/products/12_dbd02675-3567-4efe-89bb-f6693c9cd5d8.jpg"
+    },
+    "artisan": {
+      "name": "Shanti Devi",
+      "location": "Barmer, Rajasthan",
+      "photo": "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?auto=format&fit=crop&w=400&q=80",
+      "quote": "Weaving natural rattan and macramé has been our livelihood for three generations."
+    },
+    "impactTag": "Your purchase supports 3 days of clean drinking water supply for artisan hamlets",
     "isBestSeller": false,
     "inStock": true,
     "stockCount": 13,
@@ -898,6 +1162,10 @@
     "description": "Sturdy canvas tote hand block-printed in indigo, with an inside pocket.",
     "category": "bags-accessories",
     "subcategory": "tote-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 699,
     "salePrice": 529,
@@ -939,6 +1207,10 @@
     "description": "Zippered tote with a hand-painted floral panel on both sides.",
     "category": "bags-accessories",
     "subcategory": "tote-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 899,
     "salePrice": null,
@@ -1013,6 +1285,10 @@
     "description": "Compact sling with mirror-work embroidery and an adjustable strap.",
     "category": "bags-accessories",
     "subcategory": "sling-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 1199,
     "salePrice": 899,
@@ -1050,6 +1326,10 @@
     "description": "Structured mini sling in vegan leather with a hand-stitched edge.",
     "category": "bags-accessories",
     "subcategory": "sling-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 1399,
     "salePrice": null,
@@ -1091,6 +1371,10 @@
     "description": "Crocheted phone pouch on a long strap, sized for most phones.",
     "category": "bags-accessories",
     "subcategory": "sling-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 649,
     "salePrice": 569,
@@ -1128,6 +1412,10 @@
     "description": "Silk potli with zardozi embroidery and a pearl-string handle.",
     "category": "bags-accessories",
     "subcategory": "potli-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 899,
     "salePrice": null,
@@ -1165,6 +1453,10 @@
     "description": "Drawstring potli with mirror work and tasselled cords.",
     "category": "bags-accessories",
     "subcategory": "potli-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 749,
     "salePrice": 669,
@@ -1202,6 +1494,10 @@
     "description": "Velvet potli with hand-beaded motifs for weddings and festive evenings.",
     "category": "bags-accessories",
     "subcategory": "potli-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 999,
     "salePrice": null,
@@ -1243,6 +1539,10 @@
     "description": "Hard-case clutch covered in hand-set beads with a detachable chain.",
     "category": "bags-accessories",
     "subcategory": "clutches",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 1499,
     "salePrice": 1329,
@@ -1280,6 +1580,10 @@
     "description": "Clear resin clutch with pressed flowers and a gold clasp.",
     "category": "bags-accessories",
     "subcategory": "clutches",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 1799,
     "salePrice": 1529,
@@ -1315,6 +1619,10 @@
     "slug": "embroidered-envelope-clutch",
     "title": "Embroidered Envelope Clutch",
     "description": "Soft envelope clutch with thread embroidery and a magnetic flap.",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "category": "bags-accessories",
     "subcategory": "clutches",
     "gender": "women",
@@ -1354,6 +1662,10 @@
     "description": "Padded zip pouch in block-printed cotton, wipe-clean inside.",
     "category": "bags-accessories",
     "subcategory": "pouches",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 449,
     "salePrice": null,
@@ -1391,6 +1703,10 @@
     "description": "Three nesting pouches in hand-painted Kalamkari prints.",
     "category": "bags-accessories",
     "subcategory": "pouches",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 599,
     "salePrice": 469,
@@ -1428,6 +1744,10 @@
     "description": "Little crocheted coin purse with a snap closure.",
     "category": "bags-accessories",
     "subcategory": "pouches",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 199,
     "salePrice": null,
@@ -1465,6 +1785,10 @@
     "description": "Classic granny-square shoulder bag in warm, mixed colours.",
     "category": "bags-accessories",
     "subcategory": "crochet-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 1299,
     "salePrice": null,
@@ -1502,6 +1826,10 @@
     "description": "Drawstring bucket bag worked in a tight, structured stitch.",
     "category": "bags-accessories",
     "subcategory": "crochet-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 1099,
     "salePrice": 969,
@@ -1543,6 +1871,10 @@
     "description": "Open mesh tote that folds flat, made for beach days and markets.",
     "category": "bags-accessories",
     "subcategory": "crochet-bags",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 899,
     "salePrice": null,
@@ -1580,6 +1912,10 @@
     "description": "Plump crocheted strawberry on a gold-tone clasp.",
     "category": "bags-accessories",
     "subcategory": "bag-charms",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 249,
     "salePrice": 219,
@@ -1617,6 +1953,10 @@
     "description": "Beaded charm strung with the letter of your choice.",
     "category": "bags-accessories",
     "subcategory": "bag-charms",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 299,
     "salePrice": null,
@@ -1654,6 +1994,10 @@
     "description": "A cheerful cluster of yarn pom-poms and tassels.",
     "category": "bags-accessories",
     "subcategory": "bag-charms",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "women",
     "price": 179,
     "salePrice": 149,
@@ -1691,6 +2035,10 @@
     "description": "Clean-burning soy wax scented with lavender and a hint of vanilla.",
     "category": "candles-fragrance",
     "subcategory": "scented-candles",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 449,
     "salePrice": null,
@@ -1728,6 +2076,10 @@
     "description": "Warm sandalwood and Indian rose in a matte ceramic vessel.",
     "category": "candles-fragrance",
     "subcategory": "scented-candles",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 699,
     "salePrice": null,
@@ -1765,6 +2117,10 @@
     "description": "A heady mogra scent, poured in small batches.",
     "category": "candles-fragrance",
     "subcategory": "scented-candles",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 599,
     "salePrice": null,
@@ -1802,6 +2158,10 @@
     "description": "Spiral-twist pillars that look as good unlit as they do burning.",
     "category": "candles-fragrance",
     "subcategory": "decorative-candles",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 549,
     "salePrice": 469,
@@ -1843,6 +2203,10 @@
     "description": "Pillar candle with a hand-carved floral relief.",
     "category": "candles-fragrance",
     "subcategory": "decorative-candles",
+    "image": "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg",
+    "images": [
+      "https://m.media-amazon.com/images/I/61oa0HYASAL._SX425_.jpg"
+    ],
     "gender": "unisex",
     "price": 799,
     "salePrice": null,
@@ -1953,6 +2317,10 @@
     "title": "Peony Candle Set (3)",
     "description": "Three layered peony candles in soft pastel shades.",
     "category": "candles-fragrance",
+    "image": "https://rukminim2.flixcart.com/image/681/681/xif0q/candle/j/4/3/light-mystic-home-decor-peony-set-of-3-candles-3-psotc0001-original-imahjy3yc2ffxgjd.jpeg?q=90",
+    "images": [
+      "https://rukminim2.flixcart.com/image/681/681/xif0q/candle/j/4/3/light-mystic-home-decor-peony-set-of-3-candles-3-psotc0001-original-imahjy3yc2ffxgjd.jpeg?q=90"
+    ],
     "subcategory": "flower-candles",
     "gender": "unisex",
     "price": 499,
@@ -5033,5 +5401,535 @@
     "inStock": true,
     "stockCount": 5,
     "lowStock": true
+  },
+  {
+    "id": "prod-collab-bundle-01",
+    "slug": "dried-eucalyptus-bundle",
+    "title": "Aroma Candle & Ceramic Vase Gift Set",
+    "description": "A curated collaboration pairing: our French Lavender hand-poured soy candle together with a studio-thrown ceramic bud vase. Pre-packaged into a single gift set with botanical matches and seal.",
+    "image": "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=800&q=80",
+      "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSN7mrW6ehJg0hsegM-rXYYSDkXvfQQl2VsNAvU12_uSk2-ud0jFwS-4QzwogOzdJanydIB1j5EhXSNK_KlexHHaVeLoaS8OCkGVXVAhbKJkDluL4b2aF6CLiI"
+    ],
+    "category": "gifting",
+    "subcategory": "gift-boxes",
+    "gender": "unisex",
+    "price": 1799,
+    "salePrice": 1499,
+    "isOnSale": true,
+    "discountPercentage": 17,
+    "rating": 4.9,
+    "reviewCount": 18,
+    "orderCount": 140,
+    "createdAt": "2026-08-01",
+    "isFeatured": true,
+    "productType": "collab_bundle",
+    "collaborationSlug": "sugandhit",
+    "specifications": {
+      "dimensions": "Gift Box: 10 x 8 x 4 inches",
+      "materials": "100% Pure Soy Wax, Ceramic Clay, Dried Botanicals"
+    },
+    "gifting": {
+      "idealFor": "Festivals, Housewarming, Anniversaries, Corporate Gifts",
+      "targetAudience": "Connoisseurs of artisanal living"
+    },
+    "variants": [
+      {
+        "id": "prod-collab-bundle-01-v1",
+        "name": "Lavender & Sage Duo"
+      }
+    ],
+    "isBestSeller": true,
+    "inStock": true,
+    "stockCount": 18,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-01",
+    "slug": "artisan-brass-diffuser",
+    "title": "Handmade Brass Oil Burner & Diffuser",
+    "description": "Solid hand-cast brass oil burner crafted by heritage brass-smiths of Moradabad. Exclusively offered through our design partner studio.",
+    "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80"
+    ],
+    "category": "home-decor",
+    "subcategory": "table-decor",
+    "gender": "unisex",
+    "price": 2199,
+    "salePrice": null,
+    "isOnSale": false,
+    "discountPercentage": 0,
+    "rating": 4.8,
+    "reviewCount": 12,
+    "orderCount": 88,
+    "createdAt": "2026-08-15",
+    "isFeatured": false,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/artisan-brass-diffuser",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Height (5.5 inches), Width (4 inches)",
+      "materials": "100% Pure Cast Brass"
+    },
+    "gifting": {
+      "idealFor": "Diwali, Housewarming, Self-care",
+      "targetAudience": "Lovers of heritage metallic craft"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-01-v1",
+        "name": "Antique Brass"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 50,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-02",
+    "slug": "handwoven-jute-storage-basket",
+    "title": "Handwoven Jute Storage Basket",
+    "description": "Eco-friendly woven jute basket for organizing and storing household items. Crafted by artisan weavers.",
+    "image": null,
+    "images": [null],
+    "category": "home-decor",
+    "subcategory": "decorative-trays",
+    "gender": "unisex",
+    "price": 1599,
+    "salePrice": null,
+    "isOnSale": false,
+    "discountPercentage": 0,
+    "rating": 4.6,
+    "reviewCount": 8,
+    "orderCount": 45,
+    "createdAt": "2026-08-20",
+    "isFeatured": false,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/jute-storage-basket",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Height (12 inches), Diameter (10 inches)",
+      "materials": "100% Natural Jute"
+    },
+    "gifting": {
+      "idealFor": "Housewarming, Festivals, Home Organization",
+      "targetAudience": "Eco-conscious home organizers"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-02-v1",
+        "name": "Natural"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 35,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-03",
+    "slug": "ceramic-hand-painted-dinner-set",
+    "title": "Ceramic Hand-Painted Dinner Set (6 pieces)",
+    "description": "Artisanal ceramic dinner set with hand-painted traditional motifs. Food-safe and microwave friendly.",
+    "image": null,
+    "images": [null],
+    "category": "home-decor",
+    "subcategory": "table-decor",
+    "gender": "unisex",
+    "price": 3499,
+    "salePrice": 2799,
+    "isOnSale": true,
+    "discountPercentage": 20,
+    "rating": 4.9,
+    "reviewCount": 15,
+    "orderCount": 62,
+    "createdAt": "2026-08-18",
+    "isFeatured": true,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/ceramic-dinner-set",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Plate Diameter (10 inches)",
+      "materials": "Ceramic, Food-safe glazes"
+    },
+    "gifting": {
+      "idealFor": "Housewarming, Weddings, Anniversaries",
+      "targetAudience": "Home enthusiasts who appreciate handcrafted dinnerware"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-03-v1",
+        "name": "Blue Motif"
+      },
+      {
+        "id": "prod-affiliate-pick-03-v2",
+        "name": "Red Motif"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 28,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-04",
+    "slug": "sustainable-bamboo-cutlery-set",
+    "title": "Sustainable Bamboo Cutlery & Travel Case",
+    "description": "Eco-friendly portable cutlery set in sustainable bamboo with carrying case. Perfect for lunch, travel, and picnics.",
+    "image": null,
+    "images": [null],
+    "category": "bags-accessories",
+    "subcategory": "pouches",
+    "gender": "unisex",
+    "price": 899,
+    "salePrice": null,
+    "isOnSale": false,
+    "discountPercentage": 0,
+    "rating": 4.4,
+    "reviewCount": 9,
+    "orderCount": 78,
+    "createdAt": "2026-08-12",
+    "isFeatured": false,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/bamboo-cutlery-set",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Case Length (8 inches), Width (3 inches)",
+      "materials": "100% Sustainable Bamboo, Canvas carry case"
+    },
+    "gifting": {
+      "idealFor": "Eco-lovers, Travel, Outdoor activities",
+      "targetAudience": "Environmentally conscious travelers"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-04-v1",
+        "name": "Standard"
+      }
+    ],
+    "isBestSeller": true,
+    "inStock": true,
+    "stockCount": 55,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-05",
+    "slug": "indigo-block-printed-bedsheet",
+    "title": "Indigo Block-Printed Bedsheet (Double)",
+    "description": "Traditional indigo block-printed cotton bedsheet with hand-carved wooden block stamps. 100% organic cotton.",
+    "image": null,
+    "images": [null],
+    "category": "home-decor",
+    "subcategory": "wall-decor",
+    "gender": "unisex",
+    "price": 2499,
+    "salePrice": null,
+    "isOnSale": false,
+    "discountPercentage": 0,
+    "rating": 4.7,
+    "reviewCount": 11,
+    "orderCount": 51,
+    "createdAt": "2026-08-16",
+    "isFeatured": true,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/indigo-bedsheet",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Length (90 inches), Width (60 inches)",
+      "materials": "100% Organic Cotton, Natural indigo dye"
+    },
+    "gifting": {
+      "idealFor": "Housewarming, Weddings, New Home",
+      "targetAudience": "Eco-conscious home decor enthusiasts"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-05-v1",
+        "name": "Classic Indigo"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 22,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-06",
+    "slug": "macrame-wall-tapestry",
+    "title": "Macramé Wall Tapestry Hanging",
+    "description": "Hand-knotted macramé wall hanging with geometric patterns. Perfect for bohemian and minimalist interiors.",
+    "image": null,
+    "images": [null],
+    "category": "home-decor",
+    "subcategory": "hanging-decor",
+    "gender": "unisex",
+    "price": 1799,
+    "salePrice": 1499,
+    "isOnSale": true,
+    "discountPercentage": 17,
+    "rating": 4.5,
+    "reviewCount": 13,
+    "orderCount": 67,
+    "createdAt": "2026-08-14",
+    "isFeatured": false,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/macrame-tapestry",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Length (36 inches), Width (28 inches)",
+      "materials": "100% Cotton cord, wooden dowel"
+    },
+    "gifting": {
+      "idealFor": "Housewarming, Room decor, Festivals",
+      "targetAudience": "Bohemian interior design lovers"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-06-v1",
+        "name": "Cream"
+      },
+      {
+        "id": "prod-affiliate-pick-06-v2",
+        "name": "Beige"
+      }
+    ],
+    "isBestSeller": true,
+    "inStock": true,
+    "stockCount": 40,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-07",
+    "slug": "natural-rubber-yoga-mat",
+    "title": "Natural Rubber Eco Yoga Mat",
+    "description": "Premium natural rubber yoga mat with non-slip surface. Biodegradable and eco-friendly. Comes with carrying strap.",
+    "image": null,
+    "images": [null],
+    "category": "bags-accessories",
+    "subcategory": "crochet-bags",
+    "gender": "unisex",
+    "price": 2299,
+    "salePrice": null,
+    "isOnSale": false,
+    "discountPercentage": 0,
+    "rating": 4.8,
+    "reviewCount": 10,
+    "orderCount": 43,
+    "createdAt": "2026-08-17",
+    "isFeatured": false,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/yoga-mat",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Length (72 inches), Width (24 inches), Thickness (0.25 inches)",
+      "materials": "100% Natural Rubber, natural fabric"
+    },
+    "gifting": {
+      "idealFor": "Fitness enthusiasts, Wellness gifts",
+      "targetAudience": "Yoga and fitness lovers"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-07-v1",
+        "name": "Standard"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 18,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-08",
+    "slug": "terracotta-oil-lamp-set",
+    "title": "Traditional Terracotta Oil Lamp Set (12)",
+    "description": "Handmade terracotta diyas (oil lamps) for Diwali and festive celebrations. Set of 12 traditional lamps.",
+    "image": null,
+    "images": [null],
+    "category": "home-decor",
+    "subcategory": "frames",
+    "gender": "unisex",
+    "price": 449,
+    "salePrice": 349,
+    "isOnSale": true,
+    "discountPercentage": 22,
+    "rating": 4.3,
+    "reviewCount": 7,
+    "orderCount": 125,
+    "createdAt": "2026-08-10",
+    "isFeatured": true,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/terracotta-diyas",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Height (2.5 inches), Diameter (3 inches)",
+      "materials": "100% Handmade Terracotta"
+    },
+    "gifting": {
+      "idealFor": "Diwali, Festivals, Home decoration",
+      "targetAudience": "Festival and tradition lovers"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-08-v1",
+        "name": "Natural"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 100,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-09",
+    "slug": "silk-scarf-hand-dyed",
+    "title": "Hand-Dyed Silk Scarf 36\"",
+    "description": "Luxurious silk scarf with hand-dyed natural colors. Versatile accessory for any season and style.",
+    "image": null,
+    "images": [null],
+    "category": "bags-accessories",
+    "subcategory": "tote-bags",
+    "gender": "women",
+    "price": 1899,
+    "salePrice": null,
+    "isOnSale": false,
+    "discountPercentage": 0,
+    "rating": 4.9,
+    "reviewCount": 6,
+    "orderCount": 38,
+    "createdAt": "2026-08-19",
+    "isFeatured": false,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/silk-scarf",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Length (36 inches), Width (36 inches)",
+      "materials": "100% Pure Silk, natural dyes"
+    },
+    "gifting": {
+      "idealFor": "Birthdays, Anniversaries, Fashion gifts",
+      "targetAudience": "Luxury accessory lovers"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-09-v1",
+        "name": "Sunrise Orange"
+      },
+      {
+        "id": "prod-affiliate-pick-09-v2",
+        "name": "Ocean Blue"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 15,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-10",
+    "slug": "wooden-serving-board-carved",
+    "title": "Wooden Serving Board with Hand Carving",
+    "description": "Handcrafted wooden serving or charcuterie board with intricate hand-carved designs. Food-safe finish.",
+    "image": null,
+    "images": [null],
+    "category": "home-decor",
+    "subcategory": "decorative-trays",
+    "gender": "unisex",
+    "price": 2099,
+    "salePrice": null,
+    "isOnSale": false,
+    "discountPercentage": 0,
+    "rating": 4.7,
+    "reviewCount": 9,
+    "orderCount": 52,
+    "createdAt": "2026-08-13",
+    "isFeatured": true,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/wooden-board",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Length (16 inches), Width (12 inches), Thickness (0.75 inches)",
+      "materials": "Solid Sheesham wood, food-safe finish"
+    },
+    "gifting": {
+      "idealFor": "Housewarming, Entertaining, Weddings",
+      "targetAudience": "Culinary enthusiasts and entertainers"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-10-v1",
+        "name": "Standard"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 25,
+    "lowStock": false
+  },
+  {
+    "id": "prod-affiliate-pick-11",
+    "slug": "recycled-fabric-cushion-cover",
+    "title": "Recycled Fabric Cushion Covers (Set of 4)",
+    "description": "Sustainable cushion covers made from recycled fabrics with unique patchwork designs. Zippered for easy removal.",
+    "image": null,
+    "images": [null],
+    "category": "home-decor",
+    "subcategory": "hanging-decor",
+    "gender": "unisex",
+    "price": 1299,
+    "salePrice": 999,
+    "isOnSale": true,
+    "discountPercentage": 23,
+    "rating": 4.6,
+    "reviewCount": 8,
+    "orderCount": 39,
+    "createdAt": "2026-08-11",
+    "isFeatured": false,
+    "productType": "affiliate",
+    "affiliate": {
+      "externalUrl": "https://example.com/cushion-covers",
+      "buttonText": "Buy from Partner"
+    },
+    "specifications": {
+      "dimensions": "Length (18 inches), Width (18 inches)",
+      "materials": "Recycled fabric blend, natural dyes"
+    },
+    "gifting": {
+      "idealFor": "Housewarming, Home refresh, Eco-gifts",
+      "targetAudience": "Eco-conscious home decor enthusiasts"
+    },
+    "variants": [
+      {
+        "id": "prod-affiliate-pick-11-v1",
+        "name": "Multi-color"
+      }
+    ],
+    "isBestSeller": false,
+    "inStock": true,
+    "stockCount": 32,
+    "lowStock": false
   }
 ]

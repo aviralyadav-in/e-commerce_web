@@ -1,218 +1,308 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, ChevronUp, ExternalLink, Camera, Heart, MessageCircle, Pause, Play } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  Heart,
+  Volume2,
+  VolumeX,
+  ShoppingBag,
+  ArrowRight,
+  X,
+  Play,
+  Pause,
+  ExternalLink,
+} from "lucide-react";
 import { cn } from "../../lib/cn.js";
-import Button from "../../components/ui/Button.jsx";
-import { Skeleton } from "../../components/ui/Feedback.jsx";
 import { useAsync } from "../../hooks/useAsync.js";
 import { useInView } from "../../hooks/useInView.js";
-import { useReducedMotion } from "../../hooks/useReducedMotion.js";
 import reelService from "../../services/reelService.js";
-import { formatCount } from "../../lib/format.js";
-import { BRAND } from "../../config/site.js";
+import { formatINR, toMinor } from "../../lib/money.js";
 import s from "./ReelsShowcase.module.css";
 
-/**
- * Studio reels — a phone-shaped frame that cycles through clips, beside brand
- * copy.
- *
- * Only the reel currently on screen plays (useInView): six autoplaying videos
- * at once makes a phone hot and the page janky. The rail also stops advancing
- * when scrolled away, and swaps to a static grid under reduced motion.
- *
- * Note on the engagement figures: these come from our own dataset, not the
- * Instagram Graph API. They are presented as studio stats rather than live
- * Instagram counts, which would go stale and read as invented.
- */
-
-const ADVANCE_MS = 5200;
+const INSTAGRAM_PROFILE_URL =
+  "https://www.instagram.com/manmish_creations?igsi=am9xYjJkejJjOHho";
 
 export default function ReelsShowcase() {
-  const reducedMotion = useReducedMotion();
-  const { data: reels, loading } = useAsync((opts) => reelService.getReels({ limit: 6 }, opts), []);
-  const [containerRef, inView] = useInView({ threshold: 0.35 });
-  const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const videoRef = useRef(null);
+  const { data: reels, loading } = useAsync((opts) => reelService.getReels({ limit: 8 }, opts), []);
+  const [containerRef, inView] = useInView({ threshold: 0.1 });
+
+  // Selected reel modal (opens when clicked)
+  const [activeModalReel, setActiveModalReel] = useState(null);
+  const [modalMuted, setModalMuted] = useState(false); // Unmuted by default on explicit modal click
+  const [modalPlaying, setModalPlaying] = useState(true);
+  const [likedReels, setLikedReels] = useState({});
+
+  const modalVideoRef = useRef(null);
 
   const items = reels ?? [];
-  const active = items[index];
 
-  useEffect(() => {
-    if (!items.length || reducedMotion || paused || !inView) return undefined;
-    const id = setInterval(() => setIndex((i) => (i + 1) % items.length), ADVANCE_MS);
-    return () => clearInterval(id);
-  }, [items.length, reducedMotion, paused, inView]);
-
-  // Pause the element itself when it scrolls out of view, not just the timer.
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (inView && !paused && !reducedMotion) video.play?.().catch(() => {});
-    else video.pause?.();
-  }, [inView, paused, reducedMotion, index]);
-
-  const step = (delta) => {
-    if (!items.length) return;
-    setIndex((i) => (i + delta + items.length) % items.length);
+  // Toggle like
+  const toggleLike = (e, id) => {
+    e.stopPropagation();
+    setLikedReels((prev) => ({ ...prev, [id]: !prev[id] }));
   };
+
+  // Close modal on Escape
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setActiveModalReel(null);
+      }
+    };
+    if (activeModalReel) {
+      document.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [activeModalReel]);
 
   return (
     <section className={s.section} ref={containerRef} aria-labelledby="reels-heading">
-      <div className={`container ${s.inner}`}>
-        {/* ---- Left: the reel frame ---- */}
-        <div className={s.stage}>
-          <div className={s.phone}>
-            {loading || !active ? (
-              <Skeleton className={s.frameSkeleton} />
-            ) : (
-              <>
-                <div className={s.frame}>
-                  {items.map((reel, i) => (
-                    <div
-                      key={reel.id}
-                      className={cn(s.reel, i === index && s.reelActive)}
-                      aria-hidden={i !== index}
+      {/* Section Header */}
+      <div className="container">
+        <div className={s.sectionHeader}>
+          <h2 id="reels-heading" className={s.sectionTitle}>
+            CraftiNiya Studio
+          </h2>
+        </div>
+      </div>
+
+      {/* Full-width Seamless Moving Marquee Track (Moving right to left) */}
+      <div className={s.marqueeContainer}>
+        {/* Subtle Vignette Shadows on left/right screen edges */}
+        <div className={s.fadeLeft} aria-hidden="true" />
+        <div className={s.fadeRight} aria-hidden="true" />
+
+        <div className={s.marqueeTrack}>
+          {/* Double array ensures seamless continuous loop across all widescreen resolutions */}
+          {[...items, ...items].map((reel, idx) => {
+            const isLiked = Boolean(likedReels[reel.id]);
+
+            return (
+              <div
+                key={`${reel.id}-${idx}`}
+                className={s.reelCard}
+                onClick={() => {
+                  setActiveModalReel(reel);
+                  setModalMuted(false); // Unmute option available on click
+                  setModalPlaying(true);
+                }}
+              >
+                {/* Background Video (Silent Auto-loop in marquee stream) */}
+                <div className={s.videoWrapper}>
+                  {inView && reel.videoUrl ? (
+                    <video
+                      src={reel.videoUrl}
+                      poster={reel.image || reel.posterUrl}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className={s.streamVideo}
+                    />
+                  ) : (
+                    <img
+                      src={reel.image || reel.posterUrl}
+                      alt={reel.title}
+                      className={s.streamVideo}
+                    />
+                  )}
+                  <div className={s.videoOverlay} />
+
+                  {/* Top Creator Tag */}
+                  <div className={s.cardTopBar}>
+                    <span className={s.creatorTag}>@manmish_creations</span>
+                    <button
+                      type="button"
+                      className={cn(s.likeBtn, isLiked && s.likeBtnActive)}
+                      onClick={(e) => toggleLike(e, reel.id)}
+                      aria-label="Like reel"
                     >
-                      {reel.videoUrl ? (
-                        <video
-                          ref={i === index ? videoRef : null}
-                          className={s.reelMedia}
-                          src={i === index ? reel.videoUrl : undefined}
-                          poster={reel.posterUrl}
-                          muted
-                          loop
-                          playsInline
-                          preload={i === index ? "auto" : "none"}
-                        />
-                      ) : (
-                        <img
-                          className={cn(s.reelMedia, i === index && !reducedMotion && s.reelPan)}
-                          src={reel.posterUrl}
-                          alt={reel.title}
-                          loading={i === 0 ? "eager" : "lazy"}
-                        />
-                      )}
-                    </div>
-                  ))}
-
-                  <div className={s.reelScrim} aria-hidden="true" />
-
-                  <div className={s.reelMeta}>
-                    <p className={s.reelHandle}>@craftiniya</p>
-                    <p className={s.reelTitle}>{active.title}</p>
+                      <Heart size={14} fill={isLiked ? "currentColor" : "none"} />
+                    </button>
                   </div>
 
-                  <div className={s.engagement} aria-hidden="true">
-                    <span className={s.engagementItem}>
-                      <Heart />
-                      {formatCount(active.likes)}
-                    </span>
-                    <span className={s.engagementItem}>
-                      <MessageCircle />
-                      {formatCount(Math.round(active.likes / 14))}
-                    </span>
-                  </div>
-
-                  <div className={s.progress} aria-hidden="true">
-                    {items.map((reel, i) => (
-                      <span key={reel.id} className={s.progressTrack}>
-                        <span
-                          className={cn(
-                            s.progressFill,
-                            i < index && s.progressDone,
-                            i === index && !reducedMotion && s.progressRunning,
-                          )}
-                          style={
-                            i === index
-                              ? {
-                                  animationDuration: `${ADVANCE_MS}ms`,
-                                  animationPlayState:
-                                    paused || !inView ? "paused" : "running",
-                                }
-                              : undefined
-                          }
-                        />
-                      </span>
-                    ))}
+                  {/* Play click indicator on card */}
+                  <div className={s.playIndicator}>
+                    <Play size={18} />
                   </div>
                 </div>
 
-                {!reducedMotion && (
-                  <div className={s.controls}>
-                    <button type="button" onClick={() => step(-1)} aria-label="Previous reel">
-                      <ChevronUp />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setPaused((p) => !p)}
-                      aria-label={paused ? "Play reels" : "Pause reels"}
+                {/* Hover Pop-Up: Attached Product Card (Slides up from bottom smoothly on hover) */}
+                {reel.product && (
+                  <div className={s.attachedProductPopup} onClick={(e) => e.stopPropagation()}>
+                    <Link
+                      to={reel.visitUrl || (reel.product.slug ? `/product/${reel.product.slug}` : "/shop")}
+                      className={s.attachedProductLink}
                     >
-                      {paused ? <Play /> : <Pause />}
-                    </button>
-                    <button type="button" onClick={() => step(1)} aria-label="Next reel">
-                      <ChevronDown />
-                    </button>
+                      <img
+                        src={reel.product.image || reel.image}
+                        alt={reel.product.title}
+                        className={s.productThumb}
+                      />
+                      <div className={s.productInfo}>
+                        <div className={s.productBadge}>
+                          <ShoppingBag size={10} />
+                          <span>Featured Piece</span>
+                        </div>
+                        <h4 className={s.productTitle}>{reel.product.title}</h4>
+                        <div className={s.productPriceRow}>
+                          <span className={s.productPrice}>
+                            {formatINR(toMinor(reel.product.salePrice || reel.product.price))}
+                          </span>
+                          {reel.product.salePrice && reel.product.price > reel.product.salePrice && (
+                            <span className={s.comparePrice}>
+                              {formatINR(toMinor(reel.product.price))}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <span className={s.viewCtaIcon} title="View Product">
+                        <ArrowRight size={13} />
+                      </span>
+                    </Link>
                   </div>
                 )}
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* ---- Right: brand copy ---- */}
-        <div className={s.copy}>
-          <p className={s.eyebrow}>
-            <Camera aria-hidden="true" />
-            From the studio
-          </p>
-
-          <h2 id="reels-heading" className={s.heading}>
-            Watch it being made.
-          </h2>
-
-          <p className={s.body}>
-            Resin poured in thin layers and left to cure for three days. Wax
-            weighed to the gram. Flowers pressed the week they were picked.
-            Nothing here is pulled off a shelf, and none of it is rushed.
-          </p>
-
-          <p className={s.body}>
-            We film most of it — partly because people ask how it is done, and
-            partly because it is the honest answer to why a handmade tray costs
-            what it does.
-          </p>
-
-          <ul className={s.stats}>
-            <li>
-              <strong>{items.length ? formatCount(items.reduce((n, r) => n + r.views, 0)) : "—"}</strong>
-              <span>Views this season</span>
-            </li>
-            <li>
-              <strong>3 days</strong>
-              <span>Average cure time</span>
-            </li>
-            <li>
-              <strong>1 maker</strong>
-              <span>Per finished piece</span>
-            </li>
-          </ul>
-
-          <div className={s.actions}>
-            <Button
-              href={BRAND.instagram}
-              target="_blank"
-              rel="noreferrer noopener"
-              variant="secondary"
-              endIcon={<ExternalLink size={15} />}
-            >
-              Follow on Instagram
-            </Button>
-            <Button to="/shop" variant="ghost">
-              Shop what you see
-            </Button>
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      {/* ================= REEL MODAL (Triggered on Click with Unmute & Full Sound) ================= */}
+      {activeModalReel && (
+        <div className={s.modalBackdrop} onClick={() => setActiveModalReel(null)}>
+          <div className={s.modalContainer} onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className={s.modalCloseBtn}
+              onClick={() => setActiveModalReel(null)}
+              aria-label="Close reel modal"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Modal Video Player with Sound Controls */}
+            <div className={s.modalVideoPane}>
+              <video
+                ref={modalVideoRef}
+                src={activeModalReel.videoUrl}
+                poster={activeModalReel.image || activeModalReel.posterUrl}
+                autoPlay
+                loop
+                muted={modalMuted}
+                playsInline
+                className={s.modalVideo}
+                onClick={() => {
+                  const v = modalVideoRef.current;
+                  if (!v) return;
+                  if (v.paused) {
+                    v.play();
+                    setModalPlaying(true);
+                  } else {
+                    v.pause();
+                    setModalPlaying(false);
+                  }
+                }}
+              />
+
+              {/* Center Play/Pause Indicator if paused */}
+              {!modalPlaying && (
+                <div className={s.modalPausedScrim}>
+                  <Play size={44} />
+                </div>
+              )}
+
+              {/* Sound Toggle (Unmute / Mute on click) */}
+              <div className={s.modalControls}>
+                <button
+                  type="button"
+                  className={s.audioBtn}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const v = modalVideoRef.current;
+                    const next = !modalMuted;
+                    setModalMuted(next);
+                    if (v) v.muted = next;
+                  }}
+                  aria-label={modalMuted ? "Unmute video" : "Mute video"}
+                >
+                  {modalMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+                  <span>{modalMuted ? "Unmute" : "Sound On"}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Right Details & Attached Product */}
+            <div className={s.modalInfoPane}>
+              <div className={s.modalAuthorRow}>
+                <a
+                  href={INSTAGRAM_PROFILE_URL}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className={s.authorLink}
+                  title="Visit @manmish_creations on Instagram"
+                >
+                  <div className={s.authorAvatar}>
+                    <img
+                      src={activeModalReel.image || activeModalReel.posterUrl}
+                      alt="Manmish Creations"
+                    />
+                  </div>
+                  <div className={s.authorDetails}>
+                    <span className={s.authorName}>Manmish Creations</span>
+                    <span className={s.authorHandle}>@manmish_creations</span>
+                  </div>
+                </a>
+              </div>
+
+              <div className={s.modalCopy}>
+                <h3 className={s.modalTitle}>{activeModalReel.title}</h3>
+                <p className={s.modalDescription}>
+                  {activeModalReel.caption || activeModalReel.description}
+                </p>
+              </div>
+
+              {activeModalReel.product && (
+                <div className={s.modalProductBox}>
+                  <p className={s.productBoxEyebrow}>Shop This Creation</p>
+                  <Link
+                    to={
+                      activeModalReel.visitUrl ||
+                      (activeModalReel.product.slug
+                        ? `/product/${activeModalReel.product.slug}`
+                        : "/shop")
+                    }
+                    className={s.modalProductCard}
+                    onClick={() => setActiveModalReel(null)}
+                  >
+                    <img
+                      src={activeModalReel.product.image || activeModalReel.image}
+                      alt={activeModalReel.product.title}
+                      className={s.modalProductThumb}
+                    />
+                    <div className={s.modalProductText}>
+                      <h4 className={s.modalProductTitle}>{activeModalReel.product.title}</h4>
+                      <p className={s.modalProductPrice}>
+                        {formatINR(
+                          toMinor(
+                            activeModalReel.product.salePrice || activeModalReel.product.price,
+                          ),
+                        )}
+                      </p>
+                    </div>
+                    <span className={s.shopNowBtn}>
+                      View Piece <ArrowRight size={14} />
+                    </span>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

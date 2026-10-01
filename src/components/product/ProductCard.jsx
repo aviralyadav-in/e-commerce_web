@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, ShoppingBag } from "lucide-react";
+import { Check, Heart, ShoppingBag } from "lucide-react";
 import { cn } from "../../lib/cn.js";
-import { Badge, Price, Rating } from "../ui/Bits.jsx";
+import { Badge, Price } from "../ui/Bits.jsx";
 import LazyImage from "../common/LazyImage.jsx";
 import { useCart } from "../../context/CartContext.jsx";
 import { useWishlist } from "../../context/WishlistContext.jsx";
@@ -16,8 +16,53 @@ import s from "./ProductCard.module.css";
  * controls as siblings rather than nested buttons — a <button> inside an <a>
  * is invalid HTML and behaves unpredictably with keyboard and assistive tech.
  */
+/**
+ * Central resolver for the 4 business models:
+ * "own", "creator", "collab_bundle", "affiliate"
+ */
+function getProductBehavior(product) {
+  const type = product.productType ?? "own";
+
+  switch (type) {
+    case "affiliate":
+      return {
+        badgeText: "Partner Pick",
+        badgeTone: "neutral",
+        isAffiliate: true,
+        buttonText: product.affiliate?.buttonText || "Buy from Partner",
+        targetUrl: `/partner/${product.slug}`,
+      };
+    case "collab_bundle":
+      return {
+        badgeText: "Curated Set",
+        badgeTone: "brand",
+        isAffiliate: false,
+        buttonText: "Add to bag",
+        targetUrl: null,
+      };
+    case "creator":
+      return {
+        badgeText: product.creator?.name ? `By ${product.creator.name}` : "Artisan Work",
+        badgeTone: "brand",
+        creatorSlug: product.creator?.slug || null,
+        isAffiliate: false,
+        buttonText: "Add to bag",
+        targetUrl: null,
+      };
+    case "own":
+    default:
+      return {
+        badgeText: null,
+        badgeTone: null,
+        isAffiliate: false,
+        buttonText: "Add to bag",
+        targetUrl: null,
+      };
+  }
+}
+
 export default function ProductCard({ product, eager = false, compact = false }) {
-  const { addItem, pending } = useCart();
+  const { addItem, removeProduct, pending, isInCart } = useCart();
   const { isWishlisted, toggle } = useWishlist();
   const { toast } = useUI();
   const navigate = useNavigate();
@@ -25,6 +70,8 @@ export default function ProductCard({ product, eager = false, compact = false })
 
   if (!product) return null;
 
+  const inCart = isInCart(product.id);
+  const behavior = getProductBehavior(product);
   const wishlisted = isWishlisted(product.id);
   const outOfStock = !product.inStock;
 
@@ -40,20 +87,40 @@ export default function ProductCard({ product, eager = false, compact = false })
     }
   };
 
-  const handleAdd = async () => {
+  const handleAction = async (e) => {
+    e.stopPropagation();
+
+    // Affiliate products redirect via /partner/:slug, never added to cart
+    if (behavior.isAffiliate) {
+      if (product.affiliate?.externalUrl) {
+        window.open(product.affiliate.externalUrl, "_blank", "noopener,noreferrer");
+      } else {
+        navigate(behavior.targetUrl);
+      }
+      return;
+    }
+
     setAdding(true);
     try {
-      await addItem({
-        productId: product.id,
-        variantId: product.variants?.[0]?.id,
-        qty: 1,
-      });
-      toast(`${product.title} added to bag`, {
-        type: "success",
-        action: { label: "View bag", onClick: () => navigate("/cart") },
-      });
+      // Toggle logic: If already in cart, remove by productId; else add it
+      if (inCart) {
+        await removeProduct(product.id);
+        toast(`${product.title} removed from bag`, {
+          type: "success",
+        });
+      } else {
+        await addItem({
+          productId: product.id,
+          variantId: product.variants?.[0]?.id,
+          qty: 1,
+        });
+        toast(`${product.title} added to bag`, {
+          type: "success",
+          action: { label: "View bag", onClick: () => navigate("/cart") },
+        });
+      }
     } catch (err) {
-      toast(err?.message ?? "Could not add that to your bag", { type: "error" });
+      toast(err?.message ?? "Could not update your bag", { type: "error" });
     } finally {
       setAdding(false);
     }
@@ -70,6 +137,7 @@ export default function ProductCard({ product, eager = false, compact = false })
         <LazyImage
           src={product.image}
           alt={product.title}
+          ratio="1 / 1"
           eager={eager}
           className={s.image}
           sizes="(max-width: 640px) 45vw, (max-width: 1180px) 30vw, 280px"
@@ -81,10 +149,13 @@ export default function ProductCard({ product, eager = false, compact = false })
           <Badge tone="neutral" size="sm">Sold out</Badge>
         ) : (
           <>
+            {behavior.badgeText ? (
+              <Badge tone={behavior.badgeTone} size="sm">{behavior.badgeText}</Badge>
+            ) : null}
             {product.isOnSale && product.discountPct ? (
               <Badge tone="accent" size="sm">{product.discountPct}% off</Badge>
             ) : null}
-            {product.isBestSeller && !product.isOnSale ? (
+            {product.isBestSeller && !product.isOnSale && !behavior.badgeText ? (
               <Badge tone="brand" size="sm">Best seller</Badge>
             ) : null}
             {product.lowStock ? (
@@ -105,47 +176,55 @@ export default function ProductCard({ product, eager = false, compact = false })
       </button>
 
       <div className={s.body}>
-        {product.subcategoryTitle && (
-          <p className={s.eyebrow}>{product.subcategoryTitle}</p>
-        )}
-
         <h3 className={s.title}>
           <Link to={`/product/${product.slug}`} className={s.titleLink}>
             {product.title}
           </Link>
         </h3>
 
-        {product.reviewCount > 0 && (
-          <Rating
-            value={product.rating}
-            count={product.reviewCount}
-            size={12}
-            showValue={false}
-            className={s.rating}
-          />
-        )}
-
         <div className={s.footer}>
           <Price
             listMinor={product.listPriceMinor}
             effectiveMinor={product.effectivePriceMinor}
             discountPct={product.discountPct}
-            size="sm"
-            showDiscount={false}
+            size="card"
+            showDiscount={true}
+            className={s.price}
           />
-        </div>
 
-        {!compact && (
           <button
             type="button"
-            className={s.add}
-            onClick={handleAdd}
+            className={cn(
+              s.add,
+              inCart && s.inCart,
+              behavior.isAffiliate && s.affiliateBtn,
+            )}
+            onClick={handleAction}
             disabled={outOfStock || adding || pending}
+            title={
+              outOfStock
+                ? "Sold out"
+                : inCart
+                  ? "In your bag (Click to remove)"
+                  : adding
+                    ? "Adding…"
+                    : behavior.buttonText
+            }
+            aria-label={
+              outOfStock
+                ? "Sold out"
+                : inCart
+                  ? `In your bag (Click to remove) - ${product.title}`
+                  : `${behavior.buttonText} - ${product.title}`
+            }
           >
-            <ShoppingBag />
-            <span>{outOfStock ? "Sold out" : adding ? "Adding…" : "Add to bag"}</span>
+            {inCart ? (
+              <Check size={16} strokeWidth={2.5} aria-hidden="true" />
+            ) : (
+              <ShoppingBag size={16} aria-hidden="true" />
+            )}
           </button>
-        )}
+        </div>
       </div>
     </article>
   );

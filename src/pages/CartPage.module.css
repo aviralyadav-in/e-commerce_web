@@ -1,5 +1,6 @@
 .wrap {
-  padding-block: var(--sp-8) var(--sp-11);
+  padding-top: clamp(12px, 1.6vw, 20px);
+  padding-bottom: var(--section-y);
 }
 
 .layout {
@@ -49,7 +50,7 @@
 }
 
 .title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: var(--fs-lg);
   font-weight: var(--fw-semibold);
   line-height: var(--lh-snug);

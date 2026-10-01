@@ -1,0 +1,94 @@
+/* =========================================================
+   ANNOUNCEMENT TICKER STRIP
+   Slim, clean, boutique white background strip
+   ========================================================= */
+
+.tickerWrapper {
+  width: 100%;
+  overflow: hidden;
+  background: var(--c-marquee-bg, var(--c-bg, #ffffff));
+  color: var(--c-marquee-text, var(--c-text, #1f3a2b));
+  padding-block: 5px;
+  position: relative;
+  border-block: 1px solid var(--c-marquee-border, var(--c-border, #e8e8e8));
+  user-select: none;
+}
+
+/* Subtle edge blur vignettes */
+.tickerWrapper::before,
+.tickerWrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(20px, 4vw, 48px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.tickerWrapper::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--c-marquee-bg, var(--c-bg)) 0%, transparent 100%);
+}
+
+.tickerWrapper::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--c-marquee-bg, var(--c-bg)) 0%, transparent 100%);
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  animation: tickerScroll 32s linear infinite;
+}
+
+.tickerWrapper:hover .track {
+  animation-play-state: paused;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-inline: clamp(12px, 2vw, 20px);
+  white-space: nowrap;
+}
+
+.icon {
+  color: var(--c-marquee-icon, var(--c-brand, #4a6b53));
+  flex-shrink: 0;
+}
+
+.text {
+  font-size: clamp(10px, 0.82vw, 11px);
+  font-weight: var(--fw-semibold, 600);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-marquee-text, var(--c-text, #1f3a2b));
+}
+
+.dot {
+  margin-left: clamp(10px, 1.8vw, 18px);
+  color: var(--c-marquee-dot, var(--c-support, #8ba888));
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+
+@keyframes tickerScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation-duration: 60s;
+  }
+}

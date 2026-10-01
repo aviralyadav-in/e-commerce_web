@@ -1,0 +1,502 @@
+/* =========================================================
+   HERO OFFER VOUCHERS STRIP — ARTISAN TICKET PASSES
+   Authentic boutique coupons with centered tear perforation,
+   left accent ribbon, and frictionless one-tap code copy.
+   ========================================================= */
+
+.voucherSection {
+  padding-top: clamp(12px, 1.6vw, 18px);
+  padding-bottom: clamp(14px, 1.8vw, 20px);
+  background-color: var(--c-bg, #ffffff);
+}
+
+.voucherGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.5vw, 18px);
+}
+
+/* ---------- Theme Colorways (Artisan Boutique Luxury) ---------- */
+
+/* 1. Emerald Atelier Pass (Welcome / First Order) */
+.themeEmerald {
+  --theme-bg: linear-gradient(135deg, #ffffff 0%, #f4f8f5 100%);
+  --theme-border: #d0e2d6;
+  --theme-border-hover: #375b42;
+  --theme-text: #143520;
+  --theme-sub: #345c41;
+  --theme-muted: #537d62;
+  --theme-accent: #1e402b;
+  --theme-badge-bg: #e2ede5;
+  --theme-badge-color: #143520;
+  --theme-perforation: rgba(30, 64, 43, 0.24);
+  --theme-glow: rgba(30, 64, 43, 0.1);
+}
+
+/* 2. Terracotta Artisan Pass (Birthday Treat) */
+.themeTerracotta {
+  --theme-bg: linear-gradient(135deg, #ffffff 0%, #faf3ee 100%);
+  --theme-border: #edd9cd;
+  --theme-border-hover: #b0512f;
+  --theme-text: #59220f;
+  --theme-sub: #7e3a22;
+  --theme-muted: #965943;
+  --theme-accent: #9c4220;
+  --theme-badge-bg: #fae7dc;
+  --theme-badge-color: #59220f;
+  --theme-perforation: rgba(156, 66, 32, 0.24);
+  --theme-glow: rgba(156, 66, 32, 0.1);
+}
+
+/* 3. Golden Heritage Pass (Festive / Atelier Archive) */
+.themeGold {
+  --theme-bg: linear-gradient(135deg, #ffffff 0%, #fbf7ee 100%);
+  --theme-border: #e9debf;
+  --theme-border-hover: #8f6c1e;
+  --theme-text: #443209;
+  --theme-sub: #694f15;
+  --theme-muted: #856929;
+  --theme-accent: #735411;
+  --theme-badge-bg: #f4ecce;
+  --theme-badge-color: #443209;
+  --theme-perforation: rgba(115, 84, 17, 0.24);
+  --theme-glow: rgba(115, 84, 17, 0.1);
+}
+
+/* ---------- Card Structure & Ticket Styling ---------- */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: stretch;
+  background: var(--theme-bg);
+  border: 1px solid var(--theme-border);
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.035);
+  transition:
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.22s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card:hover {
+  transform: translateY(-2.5px);
+  border-color: var(--theme-border-hover);
+  box-shadow: 0 8px 20px var(--theme-glow);
+}
+
+.card:active {
+  transform: translateY(-1px) scale(0.992);
+}
+
+.cardCopied {
+  border-color: var(--theme-accent) !important;
+}
+
+/* Left accent bar */
+.accentBar {
+  width: 3.5px;
+  flex: 0 0 3.5px;
+  background-color: var(--theme-accent);
+  align-self: stretch;
+}
+
+/* ---------- Left Ticket Body ---------- */
+
+.cardLeft {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 11px 12px 11px 14px;
+  z-index: 3;
+}
+
+.badgeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.tagBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill, 999px);
+  background-color: var(--theme-badge-bg);
+  color: var(--theme-badge-color);
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.badgeIcon {
+  flex-shrink: 0;
+}
+
+.termsBadge {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--theme-muted);
+  text-transform: uppercase;
+}
+
+.discountRow {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.discountAmount {
+  font-family: var(--font-sans);
+  font-size: clamp(1.4rem, 1.75vw, 1.7rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--theme-text);
+  line-height: 1;
+}
+
+.discountUnit {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--theme-accent);
+  margin-left: 5px;
+  line-height: 1;
+}
+
+.subline {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--theme-sub);
+  margin: 4px 0 0 0;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Perforated Ticket Divider (Mathematically Centered) ---------- */
+
+.ticketDivider {
+  position: relative;
+  width: 0;
+  flex: 0 0 0;
+  align-self: stretch;
+  z-index: 4;
+}
+
+.notchTop {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--c-bg, #ffffff);
+  border: 1px solid var(--theme-border);
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.06);
+  z-index: 5;
+}
+
+.notchBottom {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--c-bg, #ffffff);
+  border: 1px solid var(--theme-border);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+  z-index: 5;
+}
+
+.dashedLine {
+  position: absolute;
+  top: 9px;
+  bottom: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  border-left: 1.5px dashed var(--theme-perforation);
+  z-index: 2;
+}
+
+/* ---------- Right Ticket Stub (Interactive Code Box) ---------- */
+
+.cardRight {
+  flex: 0 0 114px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 10px 10px 12px;
+  z-index: 3;
+}
+
+.codeLabel {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-muted);
+  margin-bottom: 4px;
+}
+
+.codeBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 4px 6px 4px 7px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  border: 1.5px dashed var(--theme-accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.18s ease;
+}
+
+.card:hover .codeBox {
+  transform: scale(1.025);
+}
+
+.codeText {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--theme-text);
+  line-height: 1;
+}
+
+.copyBtn {
+  width: 19px;
+  height: 19px;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  background-color: var(--theme-accent);
+  color: #ffffff;
+  flex-shrink: 0;
+  transition: background-color 0.18s ease;
+}
+
+.card:hover .copyBtn {
+  opacity: 0.95;
+}
+
+.codeBoxCopied {
+  background-color: var(--theme-accent) !important;
+  border-color: var(--theme-accent) !important;
+  animation: popCode 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.codeBoxCopied .codeText {
+  color: #ffffff !important;
+}
+
+.codeBoxCopied .copyBtn {
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+}
+
+.checkIcon {
+  animation: checkBounce 0.22s ease;
+}
+
+@keyframes popCode {
+  0% { transform: scale(0.94); }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes checkBounce {
+  0% { transform: scale(0.6); }
+  100% { transform: scale(1); }
+}
+
+.tapHint {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--theme-muted);
+  margin-top: 3px;
+  transition: color 0.18s ease;
+}
+
+.cardCopied .tapHint {
+  color: var(--theme-accent);
+  font-weight: 700;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN: TABLET & MOBILE
+   ========================================================= */
+
+@media (max-width: 960px) {
+  .voucherGrid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding-inline: 4px;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .voucherGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    flex: 0 0 clamp(290px, 80vw, 320px);
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 480px) {
+  .voucherSection {
+    padding-top: 10px;
+    padding-bottom: 12px;
+  }
+
+  .card {
+    flex: 0 0 84vw;
+    max-width: 310px;
+  }
+
+  .cardLeft {
+    padding: 10px 10px 10px 11px;
+  }
+
+  .discountAmount {
+    font-size: 1.35rem;
+  }
+
+  .subline {
+    font-size: 10.5px;
+  }
+
+  .cardRight {
+    flex: 0 0 104px;
+    padding: 8px 8px 8px 10px;
+  }
+
+  .codeBox {
+    padding: 3px 5px 3px 6px;
+  }
+
+  .codeText {
+    font-size: 10px;
+  }
+}
+
+:global([data-theme="dark"]) .themeEmerald {
+  --theme-bg: linear-gradient(135deg, #16241b 0%, #0f1c14 100%);
+  --theme-border: rgba(255, 255, 255, 0.2);
+  --theme-border-hover: #52e189;
+  --theme-text: #ffffff;
+  --theme-sub: #d0dfd4;
+  --theme-muted: #a3d9b5;
+  --theme-accent: #52e189;
+  --theme-badge-bg: rgba(82, 225, 137, 0.2);
+  --theme-badge-color: #ffffff;
+  --theme-perforation: rgba(255, 255, 255, 0.2);
+  --theme-glow: rgba(82, 225, 137, 0.15);
+}
+
+:global([data-theme="dark"]) .themeTerracotta {
+  --theme-bg: linear-gradient(135deg, #241a18 0%, #1a1210 100%);
+  --theme-border: rgba(255, 255, 255, 0.2);
+  --theme-border-hover: #f87171;
+  --theme-text: #ffffff;
+  --theme-sub: #fecdd3;
+  --theme-muted: #fda4af;
+  --theme-accent: #fb7185;
+  --theme-badge-bg: rgba(251, 113, 133, 0.2);
+  --theme-badge-color: #ffffff;
+  --theme-perforation: rgba(255, 255, 255, 0.2);
+  --theme-glow: rgba(251, 113, 133, 0.15);
+}
+
+:global([data-theme="dark"]) .themeGold {
+  --theme-bg: linear-gradient(135deg, #242014 0%, #1a170d 100%);
+  --theme-border: rgba(255, 255, 255, 0.2);
+  --theme-border-hover: #facc15;
+  --theme-text: #ffffff;
+  --theme-sub: #fef08a;
+  --theme-muted: #fde047;
+  --theme-accent: #facc15;
+  --theme-badge-bg: rgba(250, 204, 21, 0.2);
+  --theme-badge-color: #ffffff;
+  --theme-perforation: rgba(255, 255, 255, 0.2);
+  --theme-glow: rgba(250, 204, 21, 0.15);
+}
+
+:global([data-theme="dark"]) .discountAmount {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+:global([data-theme="dark"]) .discountUnit {
+  color: var(--theme-accent) !important;
+  font-weight: 800;
+}
+
+:global([data-theme="dark"]) .termsBadge {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+:global([data-theme="dark"]) .subline {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+:global([data-theme="dark"]) .codeBox {
+  background-color: rgba(0, 0, 0, 0.42) !important;
+  border-color: var(--theme-accent) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+:global([data-theme="dark"]) .codeText {
+  color: #ffffff !important;
+}
+
+:global([data-theme="dark"]) .notchTop,
+:global([data-theme="dark"]) .notchBottom {
+  background-color: var(--c-bg) !important;
+  border-color: var(--theme-border) !important;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+:global([data-theme="dark"]) .codeLabel,
+:global([data-theme="dark"]) .tapHint {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+

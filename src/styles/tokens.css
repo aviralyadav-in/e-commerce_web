@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
 /* =========================================================
    CRAFTINIYA — DESIGN TOKENS
    Single source of truth. No literal colour, space, or radius
@@ -5,38 +7,43 @@
    inside rgba(): translucent colours use the *-rgb channel
    tokens below, so a palette change is a one-file edit.
 
-   Palette: Deep Pine #1F3A2B · Moss Green #4A6B53 ·
-            Muted Laurel #8BA888 · Terracotta #D38B5D ·
-            Linen White #F3E8DB
+   Palette: Deep Green #1F3A2B · Moss Green #4A6B53 ·
+            Soft Green #EEF4ED · Very Muted Pink #E8C9D1 ·
+            Pale Pink #F8EFF2 · White #FFFFFF · Black #0F1115
    All ratios below are WCAG 2.1, measured.
    ========================================================= */
 
 :root {
   /* ---------------------------------------------------------
-     SURFACE
+     SURFACE — Clean Pure White grounds
      --------------------------------------------------------- */
-  --c-bg: #f3e8db; /* Linen White — page ground */
-  --c-surface: #fbf6ef; /* lighter linen — cards, panels, footer */
-  --c-sunken: #ede1d0; /* deeper linen — wells, skeletons, inset areas */
+  --c-bg: #ffffff;
+  /* Clean White — page ground */
+  --c-surface: #ffffff;
+  /* Pure White — cards, panels, footer */
+  --c-sunken: #f8f8f8;
+  /* Crisp off-white — wells, skeletons, inset areas */
 
   /* ---------------------------------------------------------
      BRAND
      --------------------------------------------------------- */
-  --c-brand: #4a6b53; /* Moss Green — buttons, active states   white on it 5.97:1 */
-  --c-brand-hover: #1f3a2b; /* Deep Pine — hover/pressed            white on it 12.36:1 */
-  --c-brand-soft: #e6ecdf; /* Laurel tint — hover/selected grounds  pine on it 10.27:1 */
+  --c-brand: #4a6b53;
+  /* Moss Green — buttons, active states   white on it 5.97:1 */
+  --c-brand-hover: #1f3a2b;
+  /* Deep Pine — hover/pressed            white on it 12.36:1 */
+  --c-brand-soft: #eef4ed;
+  /* Laurel tint — hover/selected grounds */
 
   /* ---------------------------------------------------------
-     ACCENT — Terracotta
-     #D38B5D is a FILL ONLY — 2.28:1 as text on Linen (fails AA).
-     Text sitting ON it uses --c-text-on-accent (4.80:1). Plain
-     Deep Pine misses by a hundredth (4.49:1), and white fails
-     outright (2.76:1). For terracotta-coloured text, use
-     --c-accent-ink.
+     ACCENT — Very Muted Pink #E8C9D1 & Pale Pink #F8EFF2
+     Subtle decorative / secondary accent and background tint.
      --------------------------------------------------------- */
-  --c-accent: #d38b5d; /* badges, star fills, offer tags, underlines */
-  --c-accent-ink: #96512f; /* text-safe terracotta  4.94:1 linen / 5.97:1 white */
-  --c-accent-soft: #f8e8dc; /* offer strips          accent-ink on it 5.00:1 */
+  --c-accent: #e8c9d1;
+  /* Very Muted Pink — subtle decorative/secondary accent */
+  --c-accent-ink: #1f3a2b;
+  /* Deep Green text-safe accent */
+  --c-accent-soft: #f8eff2;
+  /* Pale Pink — very soft pink background */
 
   /* ---------------------------------------------------------
      SUPPORT — Muted Laurel
@@ -44,6 +51,42 @@
      rules and ornament, never for words.
      --------------------------------------------------------- */
   --c-support: #8ba888;
+
+  /* ---------------------------------------------------------
+     MOBILE DRAWER PALETTE — strictly derived from brand palette:
+     Deep Pine #1F3A2B · Moss Green #4A6B53 · Laurel #EEF4ED ·
+     Pale Pink #F8EFF2 · Linen Sunken #F8F8F8
+     --------------------------------------------------------- */
+  --c-drawer-banner-bg: linear-gradient(135deg, #1f3a2b 0%, #36533f 100%);
+  /* Deep Pine to Mid-Moss gradient for promotional / account banner */
+  --c-drawer-icon-green: #eef4ed;
+  /* Laurel tint — circular icon ground for categories / shop */
+  --c-drawer-icon-pink: #f8eff2;
+  /* Pale Pink tint — circular icon ground for sale / special */
+  --c-drawer-icon-sage: #e8ede8;
+  /* Soft Sage — circular icon ground for gifts / artisans */
+  --c-drawer-icon-clay: #fbf6f0;
+  /* Linen warm ground — circular icon ground for care & support */
+  --c-drawer-close-bg: #f4f5f4;
+  /* Soft neutral ground for circular close button */
+
+  /* ---------------------------------------------------------
+     ANNOUNCEMENT TICKER PALETTE (Token-driven, no hardcoding)
+     --------------------------------------------------------- */
+  --c-ticker-bg: var(--c-brand);
+  --c-ticker-hover-bg: var(--c-brand-hover);
+  --c-ticker-text: var(--c-text-on-brand);
+  --c-ticker-border: rgba(0, 0, 0, 0.12);
+  --c-ticker-cta: var(--c-text-on-brand);
+  --c-ticker-close: var(--c-text-on-brand);
+  --c-ticker-close-hover-bg: rgba(0, 0, 0, 0.12);
+
+  --c-marquee-bg: var(--c-bg);
+  --c-marquee-text: var(--c-text);
+  --c-marquee-border: var(--c-border);
+  --c-marquee-icon: var(--c-brand);
+  --c-marquee-dot: var(--c-support);
+
 
   /* ---------------------------------------------------------
      TEXT
@@ -54,62 +97,91 @@
      every lighter green tested fails AA on Linen (#5E7D66 is
      3.78:1). Differentiate captions by size and weight.
      --------------------------------------------------------- */
-  --c-text: #1f3a2b; /* Deep Pine   10.23:1 linen / 11.50:1 surface */
-  --c-text-2: #4f5e54; /* grey-green   5.68:1 linen /  6.38:1 surface / 5.32:1 sunken */
-  --c-text-on-brand: #ffffff; /* on Moss       5.97:1 */
-  --c-text-on-accent: #1c3527; /* on Terracotta 4.80:1 (never white) */
-  --c-text-on-media: #ffffff; /* over a photo scrim only, never over a surface */
+  --c-text: #1f3a2b;
+  /* Deep Pine */
+  --c-text-2: #4f5e54;
+  /* Grey-green */
+  --c-text-on-brand: #ffffff;
+  /* on Moss       5.97:1 */
+  --c-text-on-accent: #1f3a2b;
+  /* Deep Green on Very Muted Pink (7.8:1 contrast) */
+  --c-text-on-media: #ffffff;
+  /* over a photo scrim only, never over a surface */
 
   /* ---------------------------------------------------------
      LINES
-     --c-border is decorative (1.30:1) and must never be the only
+     --c-border is decorative and must never be the only
      boundary of an interactive control — WCAG 1.4.11 needs 3:1.
      Inputs, selects and outlined buttons use --c-border-strong.
      --------------------------------------------------------- */
-  --c-border: #ddccb6; /* dividers, card edges */
-  --c-border-strong: #648468; /* form controls  3.45:1 linen / 3.87:1 surface */
-  --c-focus: #1f3a2b; /* focus ring     10.23:1 linen */
+  --c-border: #e8e8e8;
+  /* dividers, card edges */
+  --c-border-strong: #648468;
+  /* form controls */
+  --c-focus: #1f3a2b;
+  /* focus ring */
 
   /* ---------------------------------------------------------
      STATUS
      Error is a deep brick, well clear of Terracotta, so a sale
      badge is never mistaken for a validation failure.
      --------------------------------------------------------- */
-  --c-success: #2f6b3f; /* 5.27:1 linen */
-  --c-success-soft: #e2ede2; /* success on it 5.29:1 */
-  --c-error: #9b2c2c; /* 6.23:1 linen */
-  --c-error-soft: #f6e1dc; /* error on it 5.99:1 */
-  --c-warning: #8a5a0e; /* 4.90:1 linen */
-  --c-warning-soft: #f6e9d2; /* warning on it 4.93:1 */
+  --c-success: #2f6b3f;
+  --c-success-soft: #e2ede2;
+  --c-error: #9b2c2c;
+  --c-error-soft: #f6e1dc;
+  --c-warning: #8a5a0e;
+  --c-warning-soft: #f6e9d2;
 
   /* ---------------------------------------------------------
      CHANNELS — for translucency without literal colours.
      Use as: rgb(var(--c-ink-rgb) / 0.4)
      --------------------------------------------------------- */
-  --c-ink-rgb: 31 58 43; /* Deep Pine — scrims, overlays, shadows */
-  --c-bg-rgb: 243 232 219; /* Linen — hero scrim */
-  --c-surface-rgb: 251 246 239; /* frosted buttons over imagery */
-  --c-sunken-rgb: 237 225 208; /* edge fades */
-  --c-on-media-rgb: 255 255 255; /* tracks and rules over video/photos */
+  --c-ink-rgb: 31 58 43;
+  /* Deep Pine — scrims, overlays, shadows */
+  --c-bg-rgb: 255 255 255;
+  /* White ground scrim */
+  --c-surface-rgb: 255 255 255;
+  /* Frosted buttons over imagery */
+  --c-sunken-rgb: 248 248 248;
+  /* Edge fades */
+  --c-accent-rgb: 232 201 209;
+  /* Very Muted Pink #E8C9D1 */
+  --c-on-media-rgb: 255 255 255;
+  /* tracks and rules over video/photos */
 
   /* ---------------------------------------------------------
      SPACING — 4px base
      --------------------------------------------------------- */
-  --sp-1: 0.25rem; /*  4px */
-  --sp-2: 0.5rem; /*  8px */
-  --sp-3: 0.75rem; /* 12px */
-  --sp-4: 1rem; /* 16px */
-  --sp-5: 1.25rem; /* 20px */
-  --sp-6: 1.5rem; /* 24px */
-  --sp-7: 2rem; /* 32px */
-  --sp-8: 2.5rem; /* 40px */
-  --sp-9: 3rem; /* 48px */
-  --sp-10: 4rem; /* 64px */
-  --sp-11: 5rem; /* 80px */
-  --sp-12: 6rem; /* 96px */
+  --sp-1: 0.25rem;
+  /*  4px */
+  --sp-2: 0.5rem;
+  /*  8px */
+  --sp-3: 0.75rem;
+  /* 12px */
+  --sp-4: 1rem;
+  /* 16px */
+  --sp-5: 1.25rem;
+  /* 20px */
+  --sp-6: 1.5rem;
+  /* 24px */
+  --sp-7: 2rem;
+  /* 32px */
+  --sp-8: 2.5rem;
+  /* 40px */
+  --sp-9: 3rem;
+  /* 48px */
+  --sp-10: 4rem;
+  /* 64px */
+  --sp-11: 5rem;
+  /* 80px */
+  --sp-12: 6rem;
+  /* 96px */
 
   /* Vertical rhythm for page sections */
-  --section-y: clamp(3rem, 7vw, 5.5rem);
+  --section-y: clamp(2.5rem, 5vw, 5rem);
+  --section-y-sm: clamp(1.5rem, 3vw, 2.5rem);
+  --section-header-mb: clamp(1.25rem, 2.5vw, 2rem);
 
   /* ---------------------------------------------------------
      RADIUS
@@ -130,27 +202,29 @@
   --sh-lg: 0 12px 32px rgb(var(--c-ink-rgb) / 0.11);
   --sh-xl: 0 24px 56px rgb(var(--c-ink-rgb) / 0.15);
 
-  /* ---------------------------------------------------------
-     TYPOGRAPHY
-     Fraunces — a soft, organic variable serif for headings and
-     the wordmark; its optical-size axis keeps small card titles
-     sturdy where a display serif would go spindly.
-     DM Sans — a calm geometric sans for UI and body copy.
-     --------------------------------------------------------- */
-  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
-  --font-sans:
-    "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
+   /* ---------------------------------------------------------
+      TYPOGRAPHY
+      --font-serif: Brand / Logo ONLY ('Cinzel', 'Baskerville', Georgia, serif)
+      --font-sans: All UI, body, headings, buttons (system-ui, -apple-system, sans-serif)
+      --------------------------------------------------------- */
+   --font-serif: 'Cinzel', 'Baskerville', Georgia, serif;
+   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
-  --fs-xs: 0.6875rem; /* 11px */
-  --fs-sm: 0.8125rem; /* 13px */
-  --fs-base: 0.9375rem; /* 15px */
-  --fs-md: 1.0625rem; /* 17px */
-  --fs-lg: 1.25rem; /* 20px */
-  --fs-xl: 1.5rem; /* 24px */
-  --fs-2xl: clamp(1.75rem, 3vw, 2.25rem);
-  --fs-3xl: clamp(2rem, 4vw, 3rem);
-  --fs-4xl: clamp(2.5rem, 6vw, 4.5rem);
+  --fs-xs: 0.75rem;
+  /* 12px */
+  --fs-sm: 0.8125rem;
+  /* 13px */
+  --fs-base: 0.875rem;
+  /* 14px */
+  --fs-md: 0.9375rem;
+  /* 15px */
+  --fs-lg: 1rem;
+  /* 16px */
+  --fs-xl: 1.125rem;
+  /* 18px */
+  --fs-2xl: clamp(1.2rem, 1.8vw, 1.45rem);
+  --fs-3xl: clamp(1.4rem, 2.4vw, 1.85rem);
+  --fs-4xl: clamp(1.75rem, 3.5vw, 2.4rem);
 
   --lh-tight: 1.15;
   --lh-snug: 1.35;
@@ -199,4 +273,126 @@
   --z-drawer: 400;
   --z-modal: 500;
   --z-toast: 600;
+}
+
+/* =========================================================
+   RESPONSIVE SPACING HARMONY: TABLET & MOBILE
+   Unifies all sections to an exact, beautiful vertical rhythm
+   and prevents massive gaps or squeezed elements.
+   ========================================================= */
+
+@media (max-width: 768px) {
+  :root {
+    --section-y: 2.25rem;       /* 36px consistent padding-block across all full sections */
+    --section-y-sm: 1.25rem;    /* 20px consistent padding-block for compact strips */
+    --section-header-mb: 1.125rem; /* 18px consistent header bottom margin */
+    --gutter: 1rem;             /* 16px page edge padding */
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --section-y: 1.85rem;       /* 30px consistent padding-block on phones */
+    --section-y-sm: 1rem;       /* 16px consistent padding-block for compact strips */
+    --section-header-mb: 0.95rem; /* 15px consistent header bottom margin */
+    --gutter: 0.875rem;         /* 14px page edge padding */
+  }
+}
+
+/* =========================================================
+   DARK THEME PALETTE — High-Contrast Modern Luxury
+   Inversion Rule:
+   1. Whatever was White in light mode -> Deep Forest Green (#0c1811, #15241b)
+   2. Whatever was Green in light mode -> Crisp Pure White (#ffffff)
+   3. Original light mode (:root) remains 100% untouched.
+   ========================================================= */
+
+:root[data-theme="dark"],
+[data-theme="dark"] {
+  /* SURFACE — Whatever was white in light mode is now deep, rich forest green */
+  --c-bg: #0c1811;
+  /* Deep Atmospheric Forest ground */
+  --c-surface: #15241b;
+  /* Velvety Moss / Pine card & panel ground */
+  --c-sunken: #08110b;
+  /* Deepest forest sunken well */
+
+  /* BRAND — Whatever was green in light mode is now pure white */
+  --c-brand: #ffffff;
+  /* White buttons & primary CTA */
+  --c-brand-hover: #eaf3ec;
+  /* Soft pearl-white hover */
+  --c-brand-soft: #162c1f;
+  /* Solid deep forest pine ground — high contrast for badges, pills & soft wells */
+
+  /* ACCENT — Deep Rose Wine ground & Luminous Rose text */
+  --c-accent: #3b1822;
+  --c-accent-ink: #ffd6e0;
+  --c-accent-soft: #122017;
+  /* Deep forest soft ground */
+
+  /* SUPPORT */
+  --c-support: #8eb394;
+
+  /* MOBILE DRAWER PALETTE */
+  --c-drawer-banner-bg: linear-gradient(135deg, #182c20 0%, #233e2e 100%);
+  --c-drawer-icon-green: rgba(255, 255, 255, 0.14);
+  --c-drawer-icon-pink: rgba(240, 194, 205, 0.2);
+  --c-drawer-icon-sage: rgba(255, 255, 255, 0.16);
+  --c-drawer-icon-clay: rgba(255, 255, 255, 0.12);
+  --c-drawer-close-bg: #1c2e22;
+
+  /* ANNOUNCEMENT TICKER PALETTE — Soft artisan light sage green, gentle on eyes, no harsh white glare */
+  --c-ticker-bg: #c5dfcc;
+  --c-ticker-hover-bg: #b6d8bd;
+  --c-ticker-text: #0c1811;
+  --c-ticker-border: rgba(12, 24, 17, 0.16);
+  --c-ticker-cta: #0c1811;
+  --c-ticker-close: #0c1811;
+  --c-ticker-close-hover-bg: rgba(12, 24, 17, 0.12);
+
+  --c-marquee-bg: #c5dfcc;
+  --c-marquee-text: #0c1811;
+  --c-marquee-border: rgba(12, 24, 17, 0.16);
+  --c-marquee-icon: #183d24;
+  --c-marquee-dot: #4d7056;
+
+
+
+  /* TEXT — High-contrast pure white and luminous sage-white */
+  --c-text: #ffffff;
+  /* Pure white (was deep green #1f3a2b) */
+  --c-text-2: #d0dfd4;
+  /* Luminous sage-white (was grey-green #4f5e54) */
+  --c-text-on-brand: #0c1811;
+  /* Deep Forest Green text on White brand button! */
+  --c-text-on-accent: #ffd6e0;
+  --c-text-on-media: #ffffff;
+
+  /* LINES */
+  --c-border: rgba(255, 255, 255, 0.14);
+  --c-border-strong: rgba(255, 255, 255, 0.38);
+  --c-focus: #ffffff;
+
+  /* STATUS */
+  --c-success: #52e189;
+  --c-success-soft: rgba(82, 225, 137, 0.18);
+  --c-error: #f87171;
+  --c-error-soft: rgba(248, 113, 113, 0.18);
+  --c-warning: #fbbf24;
+  --c-warning-soft: rgba(251, 191, 36, 0.18);
+
+  /* CHANNELS — for translucency */
+  --c-ink-rgb: 0 0 0;
+  --c-bg-rgb: 12 24 17;
+  --c-surface-rgb: 21 36 27;
+  --c-sunken-rgb: 8 17 11;
+  --c-accent-rgb: 59 24 34;
+  --c-on-media-rgb: 255 255 255;
+
+  /* SHADOWS */
+  --sh-sm: 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --sh-md: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --sh-lg: 0 12px 32px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  --sh-xl: 0 24px 56px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.14);
 }

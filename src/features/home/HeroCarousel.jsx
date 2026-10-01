@@ -1,177 +1,189 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "../../lib/cn.js";
-import { BRAND } from "../../config/site.js";
-import { useAsync } from "../../hooks/useAsync.js";
-import { useInView } from "../../hooks/useInView.js";
 import { useReducedMotion } from "../../hooks/useReducedMotion.js";
-import promoService from "../../services/promoService.js";
+import heroSlides from "../../data/heroSlides.js";
 import s from "./HeroCarousel.module.css";
 
-/**
- * Home-page hero: full-bleed banners that advance on their own.
- *
- * - Each banner is a single link — no buttons; the whole slide is the target.
- * - Each slide plays a short looping clip that slowly zooms out. The zoom runs
- *   for exactly SLIDE_MS and its `animationend` moves to the next slide, so
- *   pausing the animation pauses the carousel with no timer to drift.
- * - There is no visible pause control, by request. Motion still stops on mouse
- *   hover and keyboard focus, while the hero is off screen or the tab is
- *   hidden, and entirely under prefers-reduced-motion (posters replace video;
- *   only the dots change slides). WCAG 2.2.2 asks for an explicit control, so
- *   this is a known shortfall rather than full conformance.
- * - Clips are muted + playsInline: without both, iOS Safari will not play them.
- */
-
-const SLIDE_MS = 5000;
+const SLIDE_DURATION_MS = 4000;
+const SWIPE_THRESHOLD = 50; // px
 
 export default function HeroCarousel() {
+  const navigate = useNavigate();
   const reducedMotion = useReducedMotion();
-  const { data: slides, error } = useAsync((opts) => promoService.getHeroSlides(opts), []);
-
   const [index, setIndex] = useState(0);
-  // Incremented whenever a slide becomes active and folded into its media key,
-  // so a returning slide remounts — restarting its clip and zoom from the top —
-  // while the outgoing slide keeps its key and simply freezes as it fades.
-  const [activations, setActivations] = useState({});
   const [hovered, setHovered] = useState(false);
   const [keyboardFocus, setKeyboardFocus] = useState(false);
+  const [aspectRatio, setAspectRatio] = useState(null);
   const [pageHidden, setPageHidden] = useState(
     () => typeof document !== "undefined" && document.visibilityState === "hidden",
   );
-  const [sectionRef, inView] = useInView({ threshold: 0.2 });
-  const videoRefs = useRef(new Map());
+  const sectionRef = useRef(null);
 
-  const count = slides?.length ?? 0;
-  const current = count ? index % count : 0;
-  const paused = hovered || keyboardFocus || pageHidden || !inView;
+  const handleImageLoad = (e) => {
+    const { naturalWidth, naturalHeight } = e.target;
+    if (naturalWidth && naturalHeight) {
+      setAspectRatio(`${naturalWidth} / ${naturalHeight}`);
+    }
+  };
+
+  // Swipe / Drag state
+  const startX = useRef(0);
+  const isDragging = useRef(false);
+  const didDrag = useRef(false);
+
+  const slides = heroSlides;
+  const count = slides.length;
+  const current = index % count;
+  const isPaused = hovered || keyboardFocus || pageHidden;
 
   const goTo = useCallback(
     (next) => {
-      if (!count) return;
-      const target = ((next % count) + count) % count;
-      if (target === current) return;
-      const id = slides[target].id;
-      setIndex(target);
-      setActivations((a) => ({ ...a, [id]: (a[id] ?? 0) + 1 }));
+      setIndex(((next % count) + count) % count);
     },
-    [count, current, slides],
+    [count],
   );
 
+  const prev = useCallback(() => goTo(current - 1), [goTo, current]);
+  const next = useCallback(() => goTo(current + 1), [goTo, current]);
+
+  // Visibility tracking
   useEffect(() => {
     const onVisibility = () => setPageHidden(document.visibilityState === "hidden");
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
-  // Only the visible slide's clip plays, and only while the hero can be seen.
+  // Soft auto-rotation, pauses on hover / focus / background
   useEffect(() => {
-    const currentId = slides?.[current]?.id;
-    videoRefs.current.forEach((video, id) => {
-      if (id === currentId && inView && !pageHidden && !reducedMotion) {
-        video.play().catch(() => {
-          /* Autoplay refused (e.g. data saver) — the poster stays up. */
-        });
-      } else {
-        video.pause();
-      }
-    });
-  }, [slides, current, activations, inView, pageHidden, reducedMotion]);
+    if (isPaused || count <= 1 || reducedMotion) return;
 
-  const handleZoomEnd = (event) => {
-    if (event.target !== event.currentTarget) return; // ignore bubbled child animations
-    goTo(current + 1);
+    const timer = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % count);
+    }, SLIDE_DURATION_MS);
+
+    return () => clearInterval(timer);
+  }, [isPaused, count, reducedMotion]);
+
+  // ---------- Swipe / Drag handlers ----------
+  const onPointerDown = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    isDragging.current = true;
+    didDrag.current = false;
+    startX.current = e.clientX;
   };
 
-  // A hero that failed to load collapses rather than opening the home page
-  // with an error card.
-  if (error) return null;
+  const onPointerMove = (e) => {
+    if (!isDragging.current) return;
+    const diff = Math.abs(e.clientX - startX.current);
+    if (diff > 8) {
+      didDrag.current = true;
+    }
+  };
+
+  const onPointerUp = (e) => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+
+    const diff = e.clientX - startX.current;
+    if (Math.abs(diff) >= SWIPE_THRESHOLD) {
+      if (diff < 0) {
+        next();
+      } else {
+        prev();
+      }
+    }
+  };
+
+  const handleSlideClick = (e, href) => {
+    if (didDrag.current) {
+      e.preventDefault();
+      didDrag.current = false;
+      return;
+    }
+    navigate(href);
+  };
 
   return (
     <section
       ref={sectionRef}
-      className={cn(s.hero, paused && s.paused)}
-      style={{ "--hero-slide-ms": `${SLIDE_MS}ms` }}
+      className={cn(s.hero, isPaused && s.paused)}
+      style={aspectRatio ? { aspectRatio } : undefined}
       aria-roledescription="carousel"
-      aria-label="Featured collections"
+      aria-label="Featured visual announcements"
       onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(true)}
-      onPointerLeave={(e) => e.pointerType === "mouse" && setHovered(false)}
-      // Keyboard focus pauses; a mouse click on a dot must not freeze the carousel.
+      onPointerLeave={(e) => {
+        e.pointerType === "mouse" && setHovered(false);
+        if (isDragging.current) onPointerUp(e);
+      }}
       onFocus={(e) => e.target.matches(":focus-visible") && setKeyboardFocus(true)}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) setKeyboardFocus(false);
       }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
     >
-      {/* Slide titles live inside links, so the page heading is provided here. */}
-      <h1 className="sr-only">
-        {BRAND.name} — {BRAND.strapline}
-      </h1>
-
-      {slides?.map((slide, i) => {
+      {/* Slide Items */}
+      {slides.map((slide, i) => {
         const isActive = i === current;
-        const titleId = `hero-title-${slide.id}`;
 
         return (
-          <Link
+          <article
             key={slide.id}
-            to={slide.href}
             className={cn(s.slide, isActive && s.slideActive)}
-            aria-labelledby={titleId}
             aria-hidden={!isActive}
-            tabIndex={isActive ? undefined : -1}
-            inert={!isActive}
+            tabIndex={isActive ? 0 : -1}
+            onClick={(e) => handleSlideClick(e, slide.href)}
+            style={{ cursor: "pointer" }}
           >
-            <div
-              key={`${slide.id}-${activations[slide.id] ?? 0}`}
-              className={cn(s.media, !reducedMotion && s.zoom)}
-              onAnimationEnd={isActive && count > 1 ? handleZoomEnd : undefined}
-            >
-              {slide.videoUrl && !reducedMotion ? (
-                <video
-                  ref={(el) => {
-                    if (el) {
-                      el.muted = true; // set the property too — the attribute alone is not always honoured
-                      videoRefs.current.set(slide.id, el);
-                    } else {
-                      videoRefs.current.delete(slide.id);
-                    }
-                  }}
-                  className={s.video}
-                  src={slide.videoUrl}
-                  poster={slide.posterUrl}
-                  muted
-                  loop
-                  playsInline
-                  // The visible clip and the next one load; the rest wait.
-                  preload={isActive || i === (current + 1) % count ? "auto" : "none"}
-                  aria-hidden="true"
-                />
-              ) : (
+            {/* Background Media with Ken Burns effect */}
+            <div className={s.media}>
+              <picture className={s.picture}>
+                {slide.imageMobile && (
+                  <source media="(max-width: 640px)" srcSet={slide.imageMobile} />
+                )}
                 <img
-                  className={s.video}
-                  src={slide.imageUrl}
-                  alt=""
+                  src={slide.imageDesktop || slide.image}
+                  alt={slide.alt || "Promotional banner"}
+                  className={cn(s.image, isActive && !reducedMotion && s.kenBurns)}
                   loading={i === 0 ? "eager" : "lazy"}
                   fetchPriority={i === 0 ? "high" : "auto"}
+                  onLoad={i === 0 ? handleImageLoad : undefined}
                 />
-              )}
+              </picture>
             </div>
-
-            <div className={s.scrim} aria-hidden="true" />
-
-            <div className={cn("container", s.inner)}>
-              <div className={s.content}>
-                {slide.eyebrow && <p className={s.eyebrow}>{slide.eyebrow}</p>}
-                <h2 id={titleId} className={s.title}>
-                  <span className={s.titleText}>{slide.title}</span>
-                </h2>
-                {slide.body && <p className={s.body}>{slide.body}</p>}
-              </div>
-            </div>
-          </Link>
+          </article>
         );
       })}
 
+      {/* Manual Left / Right Navigation Arrows */}
+      <button
+        type="button"
+        className={cn(s.arrowBtn, s.prevBtn)}
+        onClick={(e) => {
+          e.stopPropagation();
+          prev();
+        }}
+        aria-label="Previous slide"
+      >
+        <ChevronLeft size={22} />
+      </button>
+      <button
+        type="button"
+        className={cn(s.arrowBtn, s.nextBtn)}
+        onClick={(e) => {
+          e.stopPropagation();
+          next();
+        }}
+        aria-label="Next slide"
+      >
+        <ChevronRight size={22} />
+      </button>
+
+      {/* Dot Navigation */}
       {count > 1 && (
         <div className={s.dots}>
           {slides.map((slide, i) => (
@@ -179,9 +191,12 @@ export default function HeroCarousel() {
               key={slide.id}
               type="button"
               className={cn(s.dot, i === current && s.dotActive)}
-              aria-label={`Show banner ${i + 1} of ${count}: ${slide.title}`}
+              aria-label={`Go to slide ${i + 1}`}
               aria-current={i === current ? "true" : undefined}
-              onClick={() => goTo(i)}
+              onClick={(e) => {
+                e.stopPropagation();
+                goTo(i);
+              }}
             />
           ))}
         </div>

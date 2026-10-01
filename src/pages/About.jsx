@@ -1,18 +1,26 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
+  ArrowRight,
+  Briefcase,
+  Calendar,
   Camera,
+  ExternalLink,
   Flame,
   Gift,
   Hand,
   Heart,
+  HeartHandshake,
   Lamp,
   Leaf,
   Mail,
+  MapPin,
+  MessageCircle,
   Package,
   Palette,
   PenLine,
-  Play,
+  RotateCcw,
+  ShoppingBag,
   Sparkles,
   Truck,
   Users,
@@ -21,53 +29,96 @@ import SEO from "../components/common/SEO.jsx";
 import Button from "../components/ui/Button.jsx";
 import { SectionHeading } from "../components/ui/Bits.jsx";
 import { ErrorState, LoadingBlock } from "../components/ui/Feedback.jsx";
-import LazyImage from "../components/common/LazyImage.jsx";
 import { useAsync } from "../hooks/useAsync.js";
 import contentService from "../services/contentService.js";
 import { BRAND } from "../config/site.js";
 import { cn } from "../lib/cn.js";
+import aboutDesktopImg from "../assets/ABOUTIMAGE.png";
+import aboutMobileImg from "../assets/ABOUTIMAGE_mobile.jpg";
 import s from "./About.module.css";
+
+function InstagramIcon({ size = 18, className = "" }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
 
 /**
  * About page. All copy, figures, links and pictures come from the content
- * service, so an admin can change them without a deploy. Icons are picked by
- * name from a fixed set; an unknown name falls back rather than breaking.
+ * service, so an admin can change them without a deploy.
  */
 
 const ICONS = {
+  briefcase: Briefcase,
+  camera: Camera,
+  external: ExternalLink,
   flame: Flame,
   gift: Gift,
   hand: Hand,
   heart: Heart,
+  "heart-handshake": HeartHandshake,
+  instagram: InstagramIcon,
   lamp: Lamp,
   leaf: Leaf,
+  mail: Mail,
+  message: MessageCircle,
   package: Package,
   palette: Palette,
   "pen-line": PenLine,
+  "rotate-ccw": RotateCcw,
+  "shopping-bag": ShoppingBag,
   sparkles: Sparkles,
   truck: Truck,
   users: Users,
 };
 const iconFor = (name) => ICONS[name] ?? Sparkles;
 
-/** Internal paths route client-side; anything else is a plain link. */
-const linkProps = (href) => (href.startsWith("/") ? { to: href } : { href });
+/**
+ * Fallback routing metadata for practical customer care sections so every
+ * policy card is always clickable and navigates to its customer support counterpart.
+ */
+const POLICY_META = {
+  shipping: {
+    link: "/shipping-policy",
+    icon: Truck,
+    highlight: "Free above ₹1,499 • 3–6 Days",
+    linkText: "View Shipping Policy",
+  },
+  returns: {
+    link: "/return-refund-policy",
+    icon: RotateCcw,
+    highlight: "7-Day Easy Returns Guarantee",
+    linkText: "View Returns Policy",
+  },
+  care: {
+    link: "/faq#resin-care-guide",
+    icon: Sparkles,
+    highlight: "Resin, Soy Wax & Crochet",
+    linkText: "Read Care Guide",
+  },
+  contact: {
+    link: "/contact",
+    icon: MessageCircle,
+    highlight: "Human Replies • WhatsApp & Email",
+    linkText: "Get in Touch",
+  },
+};
 
-function FramedImage({ image, eager = false, side = "right" }) {
-  return (
-    <div className={cn(s.frame, side === "left" && s.frameLeft)}>
-      <div className={s.blob}>
-        <LazyImage src={image.url} alt={image.alt} ratio="4 / 5" eager={eager} />
-      </div>
-      <span className={s.swatches} aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </span>
-      <Sparkles className={s.sparkle} aria-hidden="true" />
-    </div>
-  );
-}
 
 export default function About() {
   const { data: page, loading, error, refetch } = useAsync(
@@ -76,8 +127,7 @@ export default function About() {
   );
   const { hash } = useLocation();
 
-  // Footer links deep-link to policy anchors (#shipping, #returns…), which
-  // only exist once the content has loaded.
+  // Deep-link to policy anchors (#shipping, #returns…) if loaded
   useEffect(() => {
     if (!page || !hash) return;
     document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView();
@@ -87,7 +137,7 @@ export default function About() {
     return (
       <>
         <SEO title="About" />
-        <div className="container" style={{ paddingBlock: "var(--sp-12)" }}>
+        <div className="container" style={{ paddingBlock: "var(--sp-10)" }}>
           {error ? (
             <ErrorState error={error} onRetry={refetch} />
           ) : (
@@ -98,69 +148,28 @@ export default function About() {
     );
   }
 
-  const { seo, hero, welcome, services, commitment, policies, contact } = page;
+  const { seo, welcome, services, stalls, collaborations, policies, contact } = page;
+  const validStalls = stalls?.items?.filter((item) => Boolean(item.imageUrl)) ?? [];
 
   return (
     <>
-      <SEO title={seo.title} description={seo.description} image={hero?.image.url} />
+      <SEO title={seo.title} description={seo.description} image={welcome?.image?.url} />
 
-      {hero && (
-        <section className={s.hero}>
-          <div className={cn("container", s.split)}>
-            <div className={s.copy}>
-              <Sparkles className={s.heroSparkle} aria-hidden="true" />
-              <h1 className={s.heroTitle}>{hero.title}</h1>
-              {hero.body && <p className={s.body}>{hero.body}</p>}
-              {(hero.cta || hero.videoUrl) && (
-                <div className={s.heroActions}>
-                  {hero.cta && <Button {...linkProps(hero.cta.href)}>{hero.cta.label}</Button>}
-                  {hero.videoUrl && (
-                    <a
-                      href={hero.videoUrl}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className={s.play}
-                      aria-label="Watch our story"
-                    >
-                      <Play />
-                    </a>
-                  )}
-                </div>
-              )}
-            </div>
-            <FramedImage image={hero.image} eager />
-          </div>
-        </section>
-      )}
+      {/* 1. Page Hero Banner (Full Banner Style with Desktop/Mobile Responsive Picture) */}
+      <section className={s.heroBanner} aria-label="About CraftiNiya Banner">
+        <picture className={s.bannerPicture}>
+          <source media="(max-width: 640px)" srcSet={aboutMobileImg} />
+          <img
+            src={aboutDesktopImg || welcome?.image?.url}
+            alt={welcome?.image?.alt || "About CraftiNiya"}
+            className={s.bannerImage}
+            loading="eager"
+            fetchPriority="high"
+          />
+        </picture>
+      </section>
 
-      {welcome && (
-        <section className={s.welcome}>
-          <div className={cn("container", s.split, s.splitReverse)}>
-            <FramedImage image={welcome.image} side="left" />
-            <div className={s.copy}>
-              <h2 className={s.sectionTitle}>{welcome.title}</h2>
-              {welcome.body && <p className={s.body}>{welcome.body}</p>}
-              {welcome.stats.length > 0 && (
-                <ul className={s.stats}>
-                  {welcome.stats.map((stat) => {
-                    const Icon = iconFor(stat.icon);
-                    return (
-                      <li key={stat.id} className={s.stat}>
-                        <span className={s.statValue}>{stat.value}</span>
-                        <span className={s.statLabel}>{stat.label}</span>
-                        <span className={s.statIcon} aria-hidden="true">
-                          <Icon />
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
-
+      {/* 2. What We Make (Services / Collections) */}
       {services && services.items.length > 0 && (
         <section className={s.services}>
           <div className="container">
@@ -199,68 +208,235 @@ export default function About() {
         </section>
       )}
 
-      {commitment && (
-        <section className={s.commitment}>
-          <div className={cn("container", s.split)}>
-            <div className={s.copy}>
-              <h2 className={s.sectionTitle}>{commitment.title}</h2>
-              {commitment.body && <p className={s.body}>{commitment.body}</p>}
-              {commitment.metrics.length > 0 && (
-                <ul className={s.metrics}>
-                  {commitment.metrics.map((metric) => (
-                    <li key={metric.id} className={s.metric}>
-                      <span className={s.metricHead}>
-                        <span>{metric.label}</span>
-                        <span className={s.metricValue}>{metric.value}%</span>
+      {/* 3. Beyond The Studio (Interactive Impact & Ecosystem Deck) */}
+      {collaborations && collaborations.items?.length > 0 && (
+        <section className={s.collaborations}>
+          <div className="container">
+            <SectionHeading
+              title={collaborations.eyebrow || "Beyond The Studio"}
+            />
+
+            <div className={s.impactDeck}>
+              {collaborations.items.map((item) => {
+                const Icon = iconFor(item.icon);
+                const hasLink = Boolean(item.link);
+                const isExt = Boolean(item.external);
+                const isNgo = item.id === "ngo-impact";
+                const isCreator = item.id === "influencer-network";
+                const isBrand = item.id === "brand-collab";
+                const isPartner = item.id === "affiliate-picks";
+
+                const CardContent = (
+                  <>
+                    <div className={s.impactMetaRow}>
+                      <span className={cn(s.impactIconPill, isNgo && s.ngoIconPill, isCreator && s.creatorIconPill)} aria-hidden="true">
+                        <Icon size={20} />
                       </span>
-                      <span className={s.metricTrack} aria-hidden="true">
-                        <span className={s.metricFill} style={{ width: `${metric.value}%` }} />
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                      {item.tag && (
+                        <span className={cn(s.impactTagBadge, isNgo && s.ngoTagBadge, isCreator && s.creatorTagBadge)}>
+                          {item.tag}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className={s.impactTextWrap}>
+                      <h3 className={s.impactHeading}>{item.title}</h3>
+                      <p className={s.impactParagraph}>{item.body}</p>
+                    </div>
+
+                    {item.badge && (
+                      <div className={s.impactBadgeRow}>
+                        <span className={s.impactHighlightBadge}>
+                          <Sparkles size={12} /> {item.badge}
+                        </span>
+                      </div>
+                    )}
+
+                    {item.linkText && (
+                      <div className={s.impactActionBtn}>
+                        <span>{item.linkText}</span>
+                        {isExt ? (
+                          <ExternalLink size={14} aria-hidden="true" />
+                        ) : (
+                          <ArrowRight size={14} aria-hidden="true" className={s.impactArrow} />
+                        )}
+                      </div>
+                    )}
+                  </>
+                );
+
+                const cardClass = cn(
+                  s.impactCard,
+                  isNgo && s.ngoCard,
+                  isCreator && s.creatorCard,
+                  isBrand && s.brandCard,
+                  isPartner && s.partnerCard,
+                  hasLink && s.impactCardClickable
+                );
+
+                if (!hasLink) {
+                  return (
+                    <div key={item.id} className={cardClass}>
+                      {CardContent}
+                    </div>
+                  );
+                }
+
+                return isExt ? (
+                  <a
+                    key={item.id}
+                    href={item.link}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className={cardClass}
+                  >
+                    {CardContent}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.id}
+                    to={item.link}
+                    className={cardClass}
+                  >
+                    {CardContent}
+                  </Link>
+                );
+              })}
             </div>
-            <FramedImage image={commitment.image} />
           </div>
         </section>
       )}
 
-      {(policies?.items.length > 0 || contact) && (
-        <section className={`container ${s.policies}`}>
-          {policies?.items.length > 0 && (
-            <>
-              {policies.title && <h2 className={s.policiesTitle}>{policies.title}</h2>}
-              <div className={s.policyGrid}>
-                {policies.items.map((policy) => (
-                  <article key={policy.id} id={policy.id} className={s.policy}>
-                    <h3>{policy.title}</h3>
-                    <p>{policy.body}</p>
-                  </article>
-                ))}
-              </div>
-            </>
-          )}
+      {/* 4. Live Events & Stalls Exhibitions */}
+      {stalls && validStalls.length > 0 && (
+        <section className={s.stalls}>
+          <div className="container">
+            <SectionHeading eyebrow={stalls.eyebrow} title={stalls.title} />
 
-          {contact && (
-            <div className={s.contact}>
-              {contact.title && <p>{contact.title}</p>}
-              <div className={s.contactActions}>
-                <Button href={`mailto:${BRAND.email}`} startIcon={<Mail size={16} />}>
-                  {BRAND.email}
-                </Button>
-                <Button
-                  href={BRAND.instagram}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  variant="secondary"
-                  startIcon={<Camera size={16} />}
+            <div className={s.mosaicGrid}>
+              {validStalls.map((item, idx) => (
+                <div
+                  key={item.id}
+                  className={cn(s.mosaicTile, s[`mosaicTile_${(idx % 4) + 1}`])}
                 >
-                  @craftiniya
-                </Button>
-              </div>
+                  <div className={s.tileInner}>
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title || `CraftiNiya stall exhibition ${idx + 1}`}
+                      loading="lazy"
+                      className={s.tileImage}
+                    />
+                    <div className={s.tileScrim} />
+                    {(item.title || item.event || item.location || item.date) && (
+                      <div className={s.tileContent}>
+                        {(item.event || item.date) && (
+                          <div className={s.tileBadges}>
+                            {item.event && <span className={s.tileTag}>{item.event}</span>}
+                            {item.date && (
+                              <span className={s.tileDate}>
+                                <Calendar size={11} aria-hidden="true" />
+                                {item.date}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                        {item.title && <h3 className={s.tileTitle}>{item.title}</h3>}
+                        {item.location && (
+                          <p className={s.tileLocation}>
+                            <MapPin size={11} aria-hidden="true" />
+                            <span>{item.location}</span>
+                          </p>
+                        )}
+                        {item.caption && <p className={s.tileCaption}>{item.caption}</p>}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
+        </section>
+      )}
+
+      {/* 5. The Practical Bits — Redesigned, compact & fully clickable to Customer Support */}
+      {(policies?.items?.length > 0 || contact) && (
+        <section className={s.policies}>
+          <div className="container">
+            {policies?.items?.length > 0 && (
+              <>
+                <SectionHeading
+                  eyebrow={policies.eyebrow || "Customer Care & Guarantees"}
+                  title={policies.title || "The practical bits"}
+                />
+
+                <div className={s.practicalGrid}>
+                  {policies.items.map((policy) => {
+                    const meta = POLICY_META[policy.id] || {};
+                    const targetLink = policy.link || meta.link || "/contact";
+                    const Icon = meta.icon || Sparkles;
+                    const highlight = policy.highlight || meta.highlight;
+                    const linkText = policy.linkText || meta.linkText || "View Policy Details";
+
+                    return (
+                      <Link
+                        key={policy.id}
+                        id={policy.id}
+                        to={targetLink}
+                        className={s.practicalCard}
+                      >
+                        <div className={s.practicalCardHeader}>
+                          <span className={s.practicalIcon} aria-hidden="true">
+                            <Icon size={18} />
+                          </span>
+                          {highlight && (
+                            <span className={s.practicalBadge}>{highlight}</span>
+                          )}
+                        </div>
+
+                        <h3 className={s.practicalTitle}>{policy.title}</h3>
+                        <p className={s.practicalBody}>{policy.body}</p>
+
+                        <div className={s.practicalFooter}>
+                          <span className={s.practicalLinkText}>{linkText}</span>
+                          <ArrowRight size={14} aria-hidden="true" className={s.practicalArrow} />
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {contact && (
+              <div className={s.contact}>
+                <div className={s.contactCopy}>
+                  <span className={s.contactBadge}>Artisan Direct</span>
+                  <p className={s.contactTitle}>{contact.title}</p>
+                  <p className={s.contactSub}>
+                    Got a custom question or need order assistance? We are happy to help.
+                  </p>
+                </div>
+                <div className={s.contactActions}>
+                  <Button
+                    href={`mailto:${BRAND.email}`}
+                    variant="primary"
+                    startIcon={<Mail size={16} />}
+                  >
+                    {BRAND.email}
+                  </Button>
+                  <Button
+                    href={BRAND.instagram}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    variant="secondary"
+                    startIcon={<InstagramIcon size={16} />}
+                  >
+                    @craftiniya
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </section>
       )}
     </>

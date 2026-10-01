@@ -15,10 +15,43 @@ const UIContext = createContext(null);
 const TOAST_TTL = 4000;
 
 export function UIProvider({ children }) {
+  const [theme, setThemeState] = useState(() => {
+    try {
+      const saved = localStorage.getItem("craftiniya_theme");
+      return saved === "dark" ? "dark" : "light";
+    } catch {
+      return "light";
+    }
+  });
+
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toasts, setToasts] = useState([]);
   const timersRef = useRef(new Map());
+
+  // Keep DOM attribute & storage in sync
+  useEffect(() => {
+    try {
+      document.documentElement.setAttribute("data-theme", theme);
+    } catch {}
+  }, [theme]);
+
+  const setTheme = useCallback((nextTheme) => {
+    setThemeState(nextTheme);
+    try {
+      localStorage.setItem("craftiniya_theme", nextTheme);
+    } catch {}
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setThemeState((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem("craftiniya_theme", next);
+      } catch {}
+      return next;
+    });
+  }, []);
 
   const dismissToast = useCallback((id) => {
     setToasts((list) => list.filter((t) => t.id !== id));
@@ -80,26 +113,50 @@ export function UIProvider({ children }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [anyOverlayOpen, searchOpen, menuOpen]);
 
+  const openSearch = useCallback(() => setSearchOpen(true), []);
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
+  const toggleMenu = useCallback(() => setMenuOpen((v) => !v), []);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const closeAll = useCallback(() => {
+    setSearchOpen(false);
+    setMenuOpen(false);
+  }, []);
+
   const value = useMemo(
     () => ({
+      theme,
+      toggleTheme,
+      setTheme,
+
       searchOpen,
-      openSearch: () => setSearchOpen(true),
-      closeSearch: () => setSearchOpen(false),
+      openSearch,
+      closeSearch,
 
       menuOpen,
-      toggleMenu: () => setMenuOpen((v) => !v),
-      closeMenu: () => setMenuOpen(false),
+      toggleMenu,
+      closeMenu,
 
-      closeAll: () => {
-        setSearchOpen(false);
-        setMenuOpen(false);
-      },
+      closeAll,
 
       toasts,
       toast,
       dismissToast,
     }),
-    [searchOpen, menuOpen, toasts, toast, dismissToast],
+    [
+      theme,
+      toggleTheme,
+      setTheme,
+      searchOpen,
+      openSearch,
+      closeSearch,
+      menuOpen,
+      toggleMenu,
+      closeMenu,
+      closeAll,
+      toasts,
+      toast,
+      dismissToast,
+    ],
   );
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>;

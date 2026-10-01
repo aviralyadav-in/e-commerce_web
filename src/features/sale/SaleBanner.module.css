@@ -1,0 +1,396 @@
+/* =========================================================
+   SALE BANNER — Minimalist, Quiet-Luxury Editorial Layout
+   Zero badges, zero stickers, zero bars.
+   Spacious, pure typography and pristine craft visuals.
+   ========================================================= */
+
+.banner {
+  background-color: var(--c-sunken);
+  border-bottom: 1px solid var(--c-border);
+  padding-block: clamp(var(--sp-8), 4.5vw, var(--sp-12));
+  margin-bottom: var(--sp-8);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(var(--sp-6), 4vw, var(--sp-11));
+  align-items: center;
+}
+
+/* Content Area */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-brand);
+  margin: 0 0 var(--sp-3);
+}
+
+.title {
+  margin: 0 0 var(--sp-3);
+  font-family: var(--font-sans);
+  font-size: clamp(1.85rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--c-text);
+  letter-spacing: -0.02em;
+}
+
+.description {
+  margin: 0 0 var(--sp-5);
+  color: var(--c-text-2);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  max-width: 520px;
+}
+
+/* Meta Row: Understated inline Countdown & Code */
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+  padding-top: var(--sp-2);
+}
+
+.countdownGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metaLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--c-text-2);
+}
+
+.countdownValue {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  background-color: var(--c-surface, #ffffff);
+  padding: 6px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--sh-sm);
+}
+
+/* Elevated Boutique Voucher Card */
+.voucherCard {
+  display: inline-flex;
+  align-items: center;
+  background: var(--c-surface, #ffffff);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  overflow: hidden;
+  user-select: none;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.voucherCard:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--c-brand);
+  box-shadow: 0 8px 24px rgba(74, 107, 83, 0.12);
+}
+
+.voucherCopied {
+  border-color: var(--c-brand) !important;
+  box-shadow: 0 0 0 2px var(--c-brand-soft), 0 8px 20px rgba(74, 107, 83, 0.12);
+}
+
+.voucherLeft {
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.voucherTag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--c-brand);
+  text-transform: uppercase;
+}
+
+.voucherTagIcon {
+  color: var(--c-brand);
+}
+
+.voucherCodeRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.voucherCode {
+  font-family: monospace;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--c-brand);
+}
+
+.voucherOffer {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--c-text-2);
+}
+
+.voucherDivider {
+  width: 1px;
+  height: 36px;
+  border-left: 1.5px dashed rgba(74, 107, 83, 0.25);
+  align-self: center;
+}
+
+.voucherRight {
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.voucherActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--c-brand);
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  background-color: var(--c-brand-soft);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.voucherCard:hover .voucherActionBtn {
+  background-color: var(--c-brand);
+  color: var(--c-text-on-brand);
+}
+
+.voucherCopied .voucherActionBtn {
+  background-color: var(--c-brand) !important;
+  color: var(--c-text-on-brand) !important;
+}
+
+.checkIcon {
+  color: currentColor;
+}
+
+/* Pristine Media Visual */
+.mediaWrap {
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: clamp(260px, 30vw, 360px);
+  object-fit: cover;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--sh-sm);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  .image {
+    height: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner {
+    padding-block: var(--sp-5) var(--sp-6);
+    margin-bottom: var(--sp-5);
+  }
+
+  .layout {
+    gap: var(--sp-4);
+  }
+
+  .kicker {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .title {
+    font-size: clamp(1.22rem, 5.2vw, 1.55rem);
+    line-height: 1.22;
+    margin-bottom: 8px;
+    letter-spacing: -0.015em;
+  }
+
+  .description {
+    font-size: 0.86rem;
+    line-height: 1.48;
+    margin-bottom: var(--sp-4);
+  }
+
+  .metaRow {
+    gap: var(--sp-3);
+    padding-top: 0;
+  }
+
+  .countdownGroup {
+    gap: 6px;
+  }
+
+  .metaLabel {
+    font-size: 0.625rem;
+  }
+
+  .countdownValue {
+    font-size: 0.80rem;
+    padding: 4px 10px;
+  }
+
+  .voucherCard {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .voucherCode {
+    font-size: 0.95rem;
+  }
+
+  .voucherOffer {
+    font-size: 0.65rem;
+  }
+
+  .voucherActionBtn {
+    font-size: 0.70rem;
+    padding: 5px 10px;
+  }
+
+  .image {
+    height: 190px;
+    border-radius: var(--r-md);
+  }
+}
+
+@media (max-width: 500px) {
+  .metaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
+  }
+
+  .title {
+    font-size: clamp(1.15rem, 5vw, 1.35rem);
+    line-height: 1.25;
+  }
+
+  .description {
+    font-size: 0.82rem;
+  }
+
+  .voucherCard {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .voucherLeft {
+    padding: 6px 10px;
+  }
+
+  .voucherRight {
+    padding: 6px 10px;
+  }
+
+  .voucherActionBtn {
+    padding: 4px 10px;
+    font-size: 0.68rem;
+  }
+}
+
+/* =========================================================
+   DARK THEME VOUCHER & COUNTDOWN HIGH-CONTRAST LEGIBILITY
+   ========================================================= */
+
+:global([data-theme="dark"]) .countdownValue {
+  background-color: var(--c-surface);
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+:global([data-theme="dark"]) .metaLabel {
+  color: #d0dfd4;
+}
+
+:global([data-theme="dark"]) .voucherCard {
+  background: var(--c-surface);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+:global([data-theme="dark"]) .voucherCard:hover {
+  border-color: #ffffff;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.6);
+}
+
+:global([data-theme="dark"]) .voucherTag {
+  color: #86efac;
+}
+
+:global([data-theme="dark"]) .voucherTagIcon {
+  color: #86efac;
+}
+
+:global([data-theme="dark"]) .voucherCode {
+  color: #ffffff !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Coupon amount - extra 10% off - prominently visible */
+:global([data-theme="dark"]) .voucherOffer {
+  color: #52e189 !important;
+  font-weight: 700 !important;
+}
+
+:global([data-theme="dark"]) .voucherDivider {
+  border-left-color: rgba(255, 255, 255, 0.18);
+}
+
+:global([data-theme="dark"]) .voucherActionBtn {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+:global([data-theme="dark"]) .voucherCard:hover .voucherActionBtn,
+:global([data-theme="dark"]) .voucherCopied .voucherActionBtn {
+  background-color: #ffffff !important;
+  color: #0c1811 !important;
+}

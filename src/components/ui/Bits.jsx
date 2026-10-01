@@ -26,12 +26,14 @@ export function Price({
   discountPct,
   size = "md",
   showDiscount = true,
+  prefix,
   className,
 }) {
   const onSale = effectiveMinor != null && listMinor != null && effectiveMinor < listMinor;
 
   return (
     <span className={cn(s.price, s[`price_${size}`], className)}>
+      {prefix && <span className={s.pricePrefix}>{prefix}</span>}
       <span className={s.priceCurrent}>{formatINR(effectiveMinor ?? listMinor)}</span>
       {onSale && (
         <>
@@ -104,14 +106,14 @@ export function SectionHeading({
   eyebrow,
   title,
   subtitle,
-  align = "center",
+  align = "left",
   action,
   className,
   id,
 }) {
   return (
     <div className={cn(s.heading, s[`heading_${align}`], className)}>
-      <div>
+      <div className={s.headingText}>
         {eyebrow && <p className={s.eyebrow}>{eyebrow}</p>}
         {/* id is forwarded to the heading itself so aria-labelledby on the
             surrounding section resolves to real text. */}

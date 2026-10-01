@@ -22,7 +22,7 @@
 
 .heading {
   font-family: var(--font-sans);
-  font-size: var(--fs-sm);
+  font-size: 0.75rem;
   font-weight: var(--fw-bold);
   letter-spacing: var(--ls-wider);
   text-transform: uppercase;
@@ -30,7 +30,7 @@
 
 .clear {
   color: var(--c-brand-hover);
-  font-size: var(--fs-sm);
+  font-size: 0.75rem;
   font-weight: var(--fw-semibold);
 }
 
@@ -45,13 +45,13 @@
   overflow-y: auto;
 }
 
-/* Checkbox/radio labels here run 2px larger than the shared Field default. */
+/* Checkbox/radio labels here made 1 size smaller for sleek compact layout */
 .scroll label {
-  font-size: var(--fs-base);
+  font-size: 0.8125rem;
 }
 
 .group {
-  padding-block: var(--sp-5);
+  padding-block: var(--sp-4);
   border-bottom: 1px solid var(--c-border);
 }
 
@@ -61,9 +61,9 @@
 }
 
 .groupTitle {
-  margin-bottom: var(--sp-4);
+  margin-bottom: var(--sp-3);
   font-family: var(--font-sans);
-  font-size: var(--fs-sm);
+  font-size: 0.72rem;
   font-weight: var(--fw-bold);
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
@@ -81,37 +81,48 @@
   border-radius: var(--r-md);
 }
 
-/* ---------- mobile ---------- */
+/* ---------- mobile: clean icon button (no pill, no text) ---------- */
 
 .mobileToggle {
   display: none;
   align-items: center;
-  gap: var(--sp-2);
-  min-height: 44px;
-  padding: 0 var(--sp-5);
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
   border: 1px solid var(--c-border-strong);
-  border-radius: var(--r-pill);
+  border-radius: var(--r-circle);
   background-color: var(--c-surface);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-semibold);
+  color: var(--c-text);
+  cursor: pointer;
+  position: relative;
+  box-shadow: var(--sh-sm);
+  transition:
+    background-color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease);
+}
+
+.mobileToggle:hover {
+  border-color: var(--c-brand);
+  color: var(--c-brand);
+  background-color: var(--c-brand-soft);
 }
 
 .mobileToggle svg {
-  width: 16px;
-  height: 16px;
+  width: 19px;
+  height: 19px;
 }
 
-.mobileCount {
-  display: grid;
-  place-items: center;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
-  border-radius: var(--r-pill);
+.mobileDot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-circle);
   background-color: var(--c-brand);
-  color: var(--c-text-on-brand);
-  font-size: 12px;
-  font-weight: var(--fw-bold);
+  border: 2px solid var(--c-surface);
 }
 
 .mobileClose,
@@ -130,21 +141,24 @@
 
   .sidebar {
     position: fixed;
-    top: 0;
+    top: auto;
     bottom: 0;
     left: 0;
+    right: 0;
     z-index: var(--z-drawer);
-    width: min(340px, 88vw);
-    max-height: none;
+    width: 100%;
+    max-height: 82vh;
     border: 0;
-    border-radius: 0;
-    box-shadow: var(--sh-xl);
-    transform: translateX(-100%);
-    transition: transform var(--t-base) var(--ease);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -8px 36px rgba(0, 0, 0, 0.2);
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding-bottom: max(var(--sp-4), env(safe-area-inset-bottom));
   }
 
   .sidebarOpen {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 
   .mobileClose {
@@ -181,5 +195,63 @@
 @media (min-width: 901px) {
   .mobileClose {
     display: none;
+  }
+
+  .sidebar.drawerMode {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: auto;
+    width: 380px;
+    max-width: 90vw;
+    height: 100vh;
+    max-height: 100vh;
+    border: 0;
+    border-left: 1px solid var(--c-border);
+    border-radius: 0;
+    box-shadow: -8px 0 36px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: var(--z-drawer, 999);
+    padding: var(--sp-6);
+  }
+
+  .sidebar.drawerMode.sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .sidebar.drawerMode .mobileClose {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--r-circle);
+    border: 0;
+    background: transparent;
+    color: var(--c-text-2);
+    cursor: pointer;
+  }
+
+  .sidebar.drawerMode .mobileClose:hover {
+    color: var(--c-text);
+  }
+
+  .sidebar.drawerMode .mobileFoot {
+    display: block;
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--c-border);
+  }
+
+  .scrimVisible {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--z-drawer, 999) - 1);
+    width: 100%;
+    border: 0;
+    background-color: rgb(var(--c-ink-rgb) / 0.42);
+    animation: fadeIn var(--t-base) var(--ease);
+    cursor: pointer;
   }
 }

@@ -28,6 +28,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  transition: background-color var(--t-base) var(--ease), color var(--t-base) var(--ease);
 }
 
 h1,
@@ -47,27 +48,38 @@ dd {
 h1,
 h2,
 h3,
-h4 {
-  font-family: var(--font-serif);
+h4,
+h5,
+h6 {
+  font-family: var(--font-sans);
   font-weight: var(--fw-semibold);
-  /* A half-soft Fraunces: rounder terminals than the default, calmer than
-     the fully soft, "wonky" cut reserved for the wordmark. */
-  font-variation-settings: "SOFT" 50;
   line-height: var(--lh-tight);
   letter-spacing: var(--ls-tight);
   color: var(--c-text);
 }
 
-h5,
-h6 {
-  font-family: var(--font-sans);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-snug);
+/* Brand / Logo wordmark ONLY uses --font-serif */
+[class*="brandName"],
+[class*="drawerBrandName"],
+[class*="wordmark"],
+.brandName,
+.drawerBrandName,
+.wordmark {
+  font-family: var(--font-serif) !important;
 }
 
-a {
+[class*="brandTagline"],
+.brandTagline {
+  font-family: var(--font-sans) !important;
+}
+
+/* Navigation links, buttons, dialogs, popups, and UI text strictly use --font-sans */
+a,
+nav a,
+[role="navigation"] a {
   color: inherit;
   text-decoration: none;
+  font-family: var(--font-sans);
 }
 
 ul,
@@ -93,10 +105,20 @@ img {
 button,
 input,
 textarea,
-select {
-  font: inherit;
+select,
+label {
+  font-family: var(--font-sans);
+  font-size: inherit;
   color: inherit;
   margin: 0;
+}
+
+dialog,
+[role="dialog"],
+.modal,
+.popup,
+.drawer {
+  font-family: var(--font-sans);
 }
 
 button {
@@ -106,6 +128,7 @@ button {
   padding: 0;
   color: inherit;
   text-align: inherit;
+  font-family: var(--font-sans);
 }
 
 button:disabled,
@@ -246,6 +269,7 @@ hr {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -256,6 +280,7 @@ hr {
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -266,6 +291,7 @@ hr {
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
@@ -275,6 +301,7 @@ hr {
   from {
     background-position: -200% 0;
   }
+
   to {
     background-position: 200% 0;
   }
@@ -290,6 +317,7 @@ hr {
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(-50%);
   }
@@ -299,6 +327,7 @@ hr {
   from {
     transform: translateY(-50%);
   }
+
   to {
     transform: translateY(0);
   }
@@ -325,4 +354,20 @@ hr {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------------------------------------------------------
+   DARK MODE REFINEMENTS
+   Subtle glare reduction for white-ground catalog imagery
+   --------------------------------------------------------- */
+
+:root[data-theme="dark"] img:not([class*="avatar"]):not([class*="logo"]),
+[data-theme="dark"] img:not([class*="avatar"]):not([class*="logo"]) {
+  filter: brightness(0.93) contrast(1.02);
+  transition: filter var(--t-base) var(--ease);
+}
+
+:root[data-theme="dark"] img:hover,
+[data-theme="dark"] img:hover {
+  filter: brightness(1) contrast(1);
 }

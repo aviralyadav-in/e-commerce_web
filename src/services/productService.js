@@ -30,6 +30,12 @@ async function allProducts(opts) {
 function matches(p, q) {
   if (q.categoryId && p.categoryId !== q.categoryId) return false;
   if (q.subcategoryId && p.subcategoryId !== q.subcategoryId) return false;
+  if (q.collaborationSlug && p.collaborationSlug !== q.collaborationSlug) return false;
+  if (
+    q.creatorSlug &&
+    p.creator?.slug?.toLowerCase() !== q.creatorSlug.toLowerCase()
+  )
+    return false;
 
   // Price comparisons always use the effective (sale-aware) price, so a
   // discounted item lands in exactly one budget tier everywhere in the app.
@@ -40,6 +46,7 @@ function matches(p, q) {
   if (q.inStock && !p.inStock) return false;
   if (q.featured && !p.isFeatured) return false;
   if (q.bestSeller && !p.isBestSeller) return false;
+  if (q.partnerPicks && p.productType !== "affiliate") return false;
   if (q.minRating != null && p.rating < q.minRating) return false;
 
   if (q.subcategoryIds?.length && !q.subcategoryIds.includes(p.subcategoryId))
@@ -53,6 +60,13 @@ function matches(p, q) {
       p.categoryTitle,
       p.subcategoryTitle,
       p.specifications?.materials,
+      p.gifting?.idealFor,
+      p.gifting?.targetAudience,
+      p.ageGroup,
+      ...(Array.isArray(p.tags?.relations) ? p.tags.relations : []),
+      ...(Array.isArray(p.tags?.occasions) ? p.tags.occasions : []),
+      ...(Array.isArray(p.tags?.useCases) ? p.tags.useCases : []),
+      ...(Array.isArray(p.tags?.colors) ? p.tags.colors : []),
     ]
       .filter(Boolean)
       .join(" ")
@@ -120,18 +134,67 @@ export async function getProductsByIds(ids = [], opts) {
     .filter((p) => p && wanted.has(p.id));
 }
 
-/** Same subcategory first, then the rest of the category. */
+/**
+ * Partner-aware product recommendations.
+ * - Affiliate products ONLY suggest other affiliate products.
+ * - Creator/artisan products ONLY suggest products from that creator.
+ * - Collaboration products ONLY suggest products from that collaboration.
+ * - Standard catalog products suggest from the same subcategory/category.
+ */
 export async function getRelatedProducts(productId, { limit = 8 } = {}, opts) {
   const list = await allProducts(opts);
   const product = list.find((p) => p.id === productId);
   if (!product) return [];
 
+  // 1. Affiliate / Partner Picks: ONLY suggest other affiliate products
+  if (product.productType === "affiliate" || product.affiliate) {
+    const affiliatePicks = list.filter(
+      (p) =>
+        p.id !== productId &&
+        (p.productType === "affiliate" || Boolean(p.affiliate)),
+    );
+    return sortProducts(affiliatePicks, "popular").slice(0, limit);
+  }
+
+  // 2. Creator / Artisan Products: ONLY suggest products from that creator
+  if (product.creator?.slug || product.productType === "creator") {
+    const creatorSlug = product.creator?.slug?.toLowerCase();
+    const creatorProducts = list.filter(
+      (p) =>
+        p.id !== productId &&
+        p.creator?.slug &&
+        p.creator.slug.toLowerCase() === creatorSlug,
+    );
+    return sortProducts(creatorProducts, "popular").slice(0, limit);
+  }
+
+  // 3. Collaboration Products: ONLY suggest products from that collaboration
+  if (product.collaborationSlug) {
+    const collabSlug = product.collaborationSlug.toLowerCase();
+    const collabProducts = list.filter(
+      (p) =>
+        p.id !== productId &&
+        p.collaborationSlug &&
+        p.collaborationSlug.toLowerCase() === collabSlug,
+    );
+    return sortProducts(collabProducts, "popular").slice(0, limit);
+  }
+
+  // 4. Default: Standard craft products (exclude partner items from general suggestions)
   const sameSub = list.filter(
-    (p) => p.id !== productId && p.subcategoryId === product.subcategoryId,
+    (p) =>
+      p.id !== productId &&
+      p.productType !== "affiliate" &&
+      !p.creator?.slug &&
+      !p.collaborationSlug &&
+      p.subcategoryId === product.subcategoryId,
   );
   const sameCat = list.filter(
     (p) =>
       p.id !== productId &&
+      p.productType !== "affiliate" &&
+      !p.creator?.slug &&
+      !p.collaborationSlug &&
       p.categoryId === product.categoryId &&
       p.subcategoryId !== product.subcategoryId,
   );

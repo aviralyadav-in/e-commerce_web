@@ -7,11 +7,11 @@
  */
 
 export const BRAND = {
-  name: "Craftiniya",
+  name: "CraftiNiya",
   tagline: "Handmade with love",
   strapline: "Handmade pieces, made to feel special.",
   email: "hello@craftiniya.in",
-  instagram: "https://instagram.com/craftiniya",
+  instagram: "https://www.instagram.com/manmish_creations?igsi=am9xYjJkejJjOHho",
 };
 
 /** Secondary navigation bar — centred below the brand bar. */
@@ -19,38 +19,40 @@ export const PRIMARY_NAV = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
   { label: "Categories", to: "/categories" },
-  { label: "Shop", to: "/shop" },
+  { label: "Partners", to: "#partners", isTrigger: true },
   { label: "Sale", to: "/sale" },
 ];
 
 export const FOOTER_NAV = [
   {
-    heading: "Explore",
+    heading: "Customer Care",
     links: [
-      { label: "Home", to: "/" },
-      { label: "Shop all", to: "/shop" },
-      { label: "Categories", to: "/categories" },
-      { label: "Budget gifting", to: "/budget-gifting" },
-      { label: "About us", to: "/about" },
+      { label: "Track Your Order", to: "/track-order" },
+      { label: "Shipping & Delivery Policy", to: "/shipping-policy" },
+      { label: "Returns & Refunds", to: "/return-refund-policy" },
+      { label: "Help & FAQs", to: "/faq" },
+      { label: "Contact Us", to: "/contact" },
+      { label: "Your Account", to: "/account" },
     ],
   },
   {
-    heading: "Your account",
+    heading: "About CraftiNiya",
     links: [
-      { label: "Sign in", to: "/auth?mode=signin" },
-      { label: "Create account", to: "/auth?mode=signup" },
-      { label: "Your orders", to: "/account/orders" },
-      { label: "Wishlist", to: "/wishlist" },
-      { label: "Cart", to: "/cart" },
+      { label: "Our Story & Studio", to: "/about" },
+      { label: "Meet the Artisans", to: "/about#artisans" },
+      { label: "Product Care Guide", to: "/faq#resin-care-guide" },
+      { label: "Pop-ups & Exhibitions", to: "/about#exhibitions" },
+      { label: "Bulk & Corporate Gifts", to: "/contact" },
     ],
   },
   {
-    heading: "Help",
+    heading: "Policies & Legal",
     links: [
-      { label: "Shipping", to: "/about#shipping" },
-      { label: "Returns", to: "/about#returns" },
-      { label: "Care guide", to: "/about#care" },
-      { label: "Contact", to: "/about#contact" },
+      { label: "Terms & Conditions", to: "/terms-and-conditions" },
+      { label: "Privacy Policy", to: "/privacy-policy" },
+      { label: "Return & Refund Policy", to: "/return-refund-policy" },
+      { label: "Shipping & Delivery Policy", to: "/shipping-policy" },
+      { label: "Secure Payment Policy", to: "/privacy-policy#secure-payments" },
     ],
   },
 ];

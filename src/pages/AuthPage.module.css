@@ -1,40 +1,251 @@
-/* The auth screen is a single locked viewport: the filmstrip stays put and
-   the page itself does not scroll. Only the form column scrolls, and only if
-   it is taller than the space available. */
+/* The auth screen fits comfortably on all viewports (desktop, tablet, mobile).
+   Clean, centered layout with brand wordmark, category rotating spotlight ticker,
+   and focused sign in / create account card. No scrolling product showcases. */
 
 .page {
-  height: calc(100dvh - var(--header-h));
-  overflow: hidden;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background-color: var(--c-bg);
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.panel {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--sp-8);
-  height: 100%;
+/* ---------- brand header (top middle) ---------- */
+
+.brandBar {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  max-width: var(--container);
+  background-color: var(--c-accent-soft);
+  border-bottom: 1px solid var(--c-border);
+  padding-top: clamp(0.75rem, 2vh, 1.25rem);
+  padding-bottom: clamp(0.6rem, 1.5vh, 1rem);
+  z-index: 10;
+}
+
+.brandLogo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+
+.brandLogo:hover {
+  opacity: 0.85;
+  transform: scale(1.02);
+}
+
+.brandLogo:focus-visible {
+  outline: 2px solid var(--c-brand);
+  outline-offset: 4px;
+  border-radius: var(--r-sm);
+}
+
+.brandName {
+  font-family: var(--font-serif) !important;
+  font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--c-text);
+  line-height: 1.1;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.brandLogo:hover .brandName {
+  color: var(--c-brand);
+}
+
+.brandTagline {
+  margin-top: 3px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-text-2);
+}
+
+/* =========================================================
+   3-Line Centered Dynamic Typography Composition Banner
+   (Visible on both Desktop & Mobile for unified brand feel)
+   ========================================================= */
+
+.mobileCompositionBanner {
+  display: block;
+  width: 100%;
+  flex: 0 0 auto;
+  background: linear-gradient(180deg, var(--c-accent-soft) 0%, var(--c-bg) 100%);
+  border-bottom: 1px solid var(--c-border);
+  padding: clamp(0.7rem, 2vh, 1.1rem) 0.75rem clamp(0.6rem, 1.8vh, 0.95rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.compositionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 460px;
   margin-inline: auto;
-  padding: var(--sp-6) var(--gutter);
+  position: relative;
+}
+
+/* Line 1 (Top, Centered): Fixed static text */
+.compLine1 {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: clamp(0.72rem, 1.2vw, 0.86rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-brand);
+  margin-bottom: 3px;
+  opacity: 0.92;
+}
+
+/* Line 2 (Middle, Centered Alignment): Dynamic rotating text line */
+.compLine2Track {
+  position: relative;
+  width: 100%;
+  height: clamp(32px, 5.5vh, 40px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Soft gradient mask on canvas edges to truncate incoming and outgoing keywords */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 16%,
+    black 84%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 16%,
+    black 84%,
+    transparent 100%
+  );
+}
+
+.compSlotsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  animation: compSlideTicker 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Left Slot: Outgoing Keyword (faded, off-focus) */
+.compSlotLeft {
+  flex: 1 1 0%;
+  text-align: right;
+  padding-right: clamp(0.4rem, 2vw, 0.75rem);
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  font-weight: 500;
+  color: var(--c-text-2);
+  opacity: 0.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+  transform: scale(0.92);
+}
+
+/* Center Slot: Active Keyword (main focus, 100% opacity) */
+.compSlotCenter {
+  flex: 0 0 auto;
+  max-width: 58%;
+  text-align: center;
+  padding-inline: clamp(0.35rem, 1.5vw, 0.65rem);
+  font-family: var(--font-sans);
+  font-size: clamp(1.15rem, 2vw, 1.48rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--c-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgb(var(--c-ink-rgb) / 0.05);
+}
+
+/* Right Slot: Incoming Keyword (faded, off-focus) */
+.compSlotRight {
+  flex: 1 1 0%;
+  text-align: left;
+  padding-left: clamp(0.4rem, 2vw, 0.75rem);
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  font-weight: 500;
+  color: var(--c-text-2);
+  opacity: 0.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+  transform: scale(0.92);
+}
+
+/* Line 3 (Bottom, Centered): Fixed static text */
+.compLine3 {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: clamp(0.84rem, 1.3vw, 1rem);
+  font-weight: 600;
+  color: var(--c-brand-hover);
+  margin-top: 3px;
+  letter-spacing: 0.06em;
+  opacity: 0.95;
+}
+
+@keyframes compSlideTicker {
+  0% {
+    opacity: 0.4;
+    transform: translateX(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ---------- main panel (centered across all viewports) ---------- */
+
+.panel {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 26rem;
+  margin-inline: auto;
+  padding: clamp(0.75rem, 2.5vh, 1.75rem) var(--gutter) clamp(1rem, 3vh, 2.25rem);
+  min-height: 0;
+  box-sizing: border-box;
 }
 
 .formWrap {
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  max-width: 27rem;
+  justify-content: flex-start;
   margin-inline: auto;
-  padding-block: var(--sp-4);
-  /* The form is the only scrollable region, so a short laptop screen or a
-     validation message appearing never moves the artwork beside it. */
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-
-.formWrap::-webkit-scrollbar {
-  display: none;
+  padding-top: clamp(0.25rem, 1vh, 0.5rem);
+  padding-bottom: var(--sp-2);
 }
 
 /* ---------- mode toggle ---------- */
@@ -43,15 +254,15 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px;
-  padding: 4px;
-  margin-bottom: var(--sp-7);
+  padding: 3px;
+  margin-bottom: clamp(0.75rem, 2vh, 1.15rem);
   border-radius: var(--r-pill);
   background-color: var(--c-sunken);
   flex: 0 0 auto;
 }
 
 .toggleButton {
-  min-height: 40px;
+  min-height: 38px;
   border-radius: var(--r-pill);
   color: var(--c-text-2);
   font-size: var(--fs-sm);
@@ -72,43 +283,31 @@
   box-shadow: var(--sh-sm);
 }
 
-/* ---------- copy ---------- */
-
-.title {
-  font-size: var(--fs-2xl);
-  line-height: var(--lh-tight);
-}
-
-.subtitle {
-  margin-top: var(--sp-3);
-  color: var(--c-text-2);
-  font-size: var(--fs-sm);
-  line-height: var(--lh-base);
-}
-
 /* ---------- form ---------- */
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-5);
-  margin-top: var(--sp-7);
+  gap: clamp(0.65rem, 1.6vh, 0.95rem);
+  margin-top: 0;
 }
 
 .formError {
-  padding: var(--sp-3) var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-md);
   background-color: var(--c-error-soft);
   color: var(--c-error);
-  font-size: var(--fs-sm);
+  font-size: 0.82rem;
   font-weight: var(--fw-medium);
+  margin: 0;
 }
 
 .switch {
-  margin-top: var(--sp-6);
+  margin-top: clamp(0.65rem, 1.8vh, 1rem);
   color: var(--c-text-2);
-  font-size: var(--fs-sm);
+  font-size: 0.84rem;
   text-align: center;
+  margin-bottom: 0;
 }
 
 .switch button {
@@ -119,55 +318,12 @@
 }
 
 .legal {
-  margin-top: var(--sp-6);
-  padding-top: var(--sp-5);
+  margin-top: clamp(0.65rem, 1.8vh, 1rem);
+  padding-top: clamp(0.5rem, 1.2vh, 0.75rem);
   border-top: 1px solid var(--c-border);
   color: var(--c-text-2);
-  font-size: var(--fs-xs);
-  line-height: var(--lh-base);
+  font-size: 0.72rem;
+  line-height: 1.4;
   text-align: center;
-}
-
-/* Shorter viewports: keep everything on screen by tightening the rhythm
-   rather than introducing a scrollbar. */
-@media (max-height: 760px) {
-  .toggle {
-    margin-bottom: var(--sp-5);
-  }
-
-  .form {
-    gap: var(--sp-4);
-    margin-top: var(--sp-5);
-  }
-
-  .legal {
-    margin-top: var(--sp-4);
-    padding-top: var(--sp-4);
-  }
-}
-
-/* The filmstrip is decoration. Below 900px there is nowhere for two scrolling
-   columns to live, so it is removed and the page returns to normal flow —
-   locking the viewport on a phone would clip the form behind the keyboard. */
-@media (max-width: 900px) {
-  .page {
-    height: auto;
-    min-height: calc(100dvh - var(--header-h-sm));
-    overflow: visible;
-    padding-block: var(--sp-8) var(--sp-10);
-  }
-
-  .panel {
-    grid-template-columns: 1fr;
-    height: auto;
-    padding-block: 0;
-  }
-
-  .formWrap {
-    overflow-y: visible;
-  }
-
-  .panel > aside {
-    display: none;
-  }
+  margin-bottom: 0;
 }

@@ -1,0 +1,152 @@
+/* =========================================================
+   TOP PROMOTIONAL TICKER (SINGLE-LINE Y-AXIS SLIDER)
+   Sits above Header in RootLayout.
+   ========================================================= */
+
+.banner {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  background-color: var(--c-ticker-bg, var(--c-brand, #4a6b53));
+  color: var(--c-ticker-text, var(--c-text-on-brand, #ffffff));
+  border-bottom: 1px solid var(--c-ticker-border, rgba(0, 0, 0, 0.12));
+  height: 38px;
+  position: relative;
+  z-index: 50;
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 42px 0 16px;
+  transition: background-color 150ms ease;
+}
+
+.banner:hover {
+  background-color: var(--c-ticker-hover-bg, var(--c-brand-hover, #1f3a2b));
+}
+
+.trackWrapper {
+  max-width: 1000px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.tickerItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  animation: slideY 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  white-space: nowrap;
+}
+
+@keyframes slideY {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text {
+  font-size: clamp(11.5px, 0.88vw, 13px);
+  font-weight: 600;
+  color: var(--c-ticker-text, var(--c-text-on-brand, #ffffff));
+  letter-spacing: -0.01em;
+}
+
+.ctaLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: clamp(11px, 0.84vw, 12px);
+  font-weight: 700;
+  color: var(--c-ticker-cta, var(--c-text-on-brand, #ffffff));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0.95;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  flex-shrink: 0;
+}
+
+.banner:hover .ctaLink {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.closeBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--c-ticker-close, var(--c-text-on-brand, rgba(255, 255, 255, 0.85)));
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: background-color 150ms ease, color 150ms ease;
+  z-index: 2;
+}
+
+.closeBtn:hover {
+  background-color: var(--c-ticker-close-hover-bg, rgba(0, 0, 0, 0.12));
+  color: currentColor;
+}
+
+
+
+/* Mobile Tweaks */
+@media (max-width: 640px) {
+  .banner {
+    height: 33px;
+    padding: 0 32px 0 10px;
+  }
+
+  .tickerItem {
+    gap: 6px;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .text {
+    font-size: clamp(9.5px, 2.7vw, 10.5px);
+    letter-spacing: 0.01em;
+    font-weight: 600;
+    color: var(--c-ticker-text, #ffffff);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .closeBtn {
+    right: 8px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .closeBtn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .ctaLink {
+    display: none; /* Keep strictly 1 line on narrow screens */
+  }
+}
